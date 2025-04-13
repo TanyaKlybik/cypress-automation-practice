@@ -26,5 +26,5 @@ This executes the tests in the command-line interface (CLI) without a UI.
 
 For more details, refer to the documentation files:
 
-- [Cypress Run Modes](sandbox:/mnt/data/cypress_run_modes.txt)
-- [Official Cypress Documentation](https://docs.cypress.io/guides/guides/command-line)
+- [Git Strategy](docs/git-strategy.md)
+- [Hotkeys](docs/hotkeys.md)

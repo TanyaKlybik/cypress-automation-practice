@@ -1,8 +1,15 @@
-# IntelliJ IDEA specific files
+# Ignore the entire .idea folder, but keep useful files for the team
 .idea/
-*.iws
-*.iml
-*.ipr
+
+# Allow specific files from .idea:
+!.idea/codeStyles/
+!.idea/runConfigurations/
+!.idea/inspectionProfiles/
+!.idea/modules.xml
+!.idea/vcs.xml
+
+# Visual Studio Code
+.vscode/
 
 # Node.js specific files
 node_modules/
@@ -16,24 +23,3 @@ logs/
 # OS generated files
 .DS_Store
 Thumbs.db
-
-# JetBrains specific files
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
-.idea/**/contentModel.xml
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-.idea/**/dbnavigator.xml
-.idea/**/gradle.xml
-.idea/**/libraries
-.idea/**/mongoSettings.xml
-.idea/**/sonarlint/
-.idea/httpRequests
-.idea/caches/build_file_checksums.ser
