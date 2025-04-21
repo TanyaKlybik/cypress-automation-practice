@@ -1,0 +1,25 @@
+# Ignore the entire .idea folder, but keep useful files for the team
+.idea/
+
+# Allow specific files from .idea:
+!.idea/codeStyles/
+!.idea/runConfigurations/
+!.idea/inspectionProfiles/
+!.idea/modules.xml
+!.idea/vcs.xml
+
+# Visual Studio Code
+.vscode/
+
+# Node.js specific files
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs/
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
