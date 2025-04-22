@@ -16,6 +16,10 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
     it.skip('Then login button is visible and enabled', () => {
       // Not implemented yet
     });
+    it.skip('Then login button should be disabled when only password is filled', () => {
+      // TODO:https://github.com/TanyaKlybik/cypress-automation-practice/issues/3
+      // Not implemented yet
+    });
   });
 
   context('LoginPage.VALIDATION: When user tries to login with invalid data', () => {
