@@ -1,5 +1,5 @@
 const urls = {
-    baseUrl: 'https://www.saucedemo.com/',
+  baseUrl: 'https://www.saucedemo.com/',
 };
 
 module.exports = urls;
