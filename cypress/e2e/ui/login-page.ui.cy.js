@@ -1,33 +1,36 @@
+import selectors from '../../support/selectors';
+import l10n from '../../support/l10n.json';
 describe('LoginPage: Given login page is open', { testIsolation: false }, () => {
   before(() => {
     cy.visit('/');
   });
 
-  context('LoginPage.UI: Then user sees the correct UI', () => {
-    it('Then title is visible', () => {
-      cy.contains(global.l10n.loginPage.title).should('be.visible');
+  context('LoginPage.UIelements: When login page loads', () => {
+    it('Then the page title should be visible', () => {
+      cy.contains(l10n.loginPage.title).should('be.visible');
     });
 
-    it('Then username field is visible and has placeholder', () => {
-      cy.get(global.selectors.loginPage.usernameInput).should('be.visible').and('have.attr', 'placeholder', global.l10n.loginPage.username).and('have.value', '');
+    it('Then the username field should be empty with correct placeholder', () => {
+      cy.get(selectors.loginPage.usernameInput).should('be.visible').and('have.attr', 'placeholder', l10n.loginPage.username).and('have.value', '');
     });
 
-    it('Then password field is visible and has placeholder', () => {
-      cy.get(global.selectors.loginPage.passwordInput).should('be.visible').and('have.attr', 'placeholder', global.l10n.loginPage.password).and('have.value', '');
+    it('Then the password field should be empty with correct placeholder', () => {
+      cy.get(selectors.loginPage.passwordInput).should('be.visible').and('have.attr', 'placeholder', l10n.loginPage.password).and('have.value', '');
     });
 
-    it('Then login button is visible and enabled', () => {
-      cy.get(global.selectors.loginPage.loginButton).should('be.visible').and('have.value', global.l10n.loginPage.login).and('be.enabled');
+    it('Then the login button should be enabled with correct label', () => {
+      cy.get(selectors.loginPage.loginButton).should('be.visible').and('have.value', l10n.loginPage.login).and('be.enabled');
     });
 
-    it('Then login button should be disabled when only password is filled', () => {
-      cy.get(global.selectors.loginPage.passwordInput).type('secret_sauce');
-      cy.get(global.selectors.loginPage.loginButton).should('be.disabled');
+    it('Then the login button should be disabled when only password is filled', () => {
+      //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/3
+      cy.get(selectors.loginPage.passwordInput).type('secret');
+      cy.get(selectors.loginPage.loginButton).should('be.disabled');
     });
   });
 });
 
-context.skip('LoginPage.VALIDATION: When user tries to login with invalid data', () => {
+context.skip('LoginPage.ValidationErrors: When user tries to login with invalid data', () => {
   it.skip('Then login with empty username and password shows validation', () => {
     // Not implemented yet
   });
@@ -60,7 +63,7 @@ context.skip('LoginPage.VALIDATION: When user tries to login with invalid data',
   });
 });
 
-context.skip('LoginPage.SUCCESS: When user logs in with valid credentials', () => {
+context.skip('LoginPage.AuthSuccessFlow: When user logs in with valid credentials', () => {
   it.skip('Then user is redirected to the inventory page', () => {
     // Not implemented yet
   });
@@ -72,19 +75,19 @@ context.skip('LoginPage.SUCCESS: When user logs in with valid credentials', () =
   });
 });
 
-context.skip('LoginPage.SESSION: When user refreshes the page', () => {
+context.skip('LoginPage.SessionRestoreState: When user refreshes the page', () => {
   it.skip('Then if not logged in, fields are empty and login page remains', () => {
     // Not implemented yet
   });
 });
 
-context.skip('LoginPage.SECURITY: When unauthorized user tries to access /inventory directly', () => {
+context.skip('LoginPage.SecurityRedirects: When unauthorized user tries to access /inventory directly', () => {
   it.skip('Then they are redirected to the login page', () => {
     // Not implemented yet
   });
 });
 
-context.skip('LoginPage.USERS: When user logs in with different user types', () => {
+context.skip('LoginPage.UserTypes: When user logs in with different user types', () => {
   it.skip('Then standard_user can login successfully', () => {
     // Not implemented yet
   });
