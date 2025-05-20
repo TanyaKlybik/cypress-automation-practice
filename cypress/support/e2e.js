@@ -21,5 +21,5 @@ import urls from './urls';
 
 global.l10n = l10n;
 global.requirements = requirements;
-global.selectors = selectors;
+global.loginPage = selectors.loginPage;
 global.urls = urls;

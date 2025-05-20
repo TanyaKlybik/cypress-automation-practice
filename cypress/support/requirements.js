@@ -1,1 +1,2 @@
-export const requirements = {};
+const requirements = {};
+export default { requirements };
