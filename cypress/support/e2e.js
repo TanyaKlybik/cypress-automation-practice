@@ -13,13 +13,23 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+// Import commands.js using ES2015 syntax:
 import './commands';
+
+// Import necessary modules and resources
 import l10n from './l10n.json';
 import selectors from './selectors';
 import requirements from './requirements';
 import urls from './urls';
+import userRoles from './user-roles';
+import colours from './colours';
 
+// Make resources globally available
 global.l10n = l10n;
 global.requirements = requirements;
 global.loginPage = selectors.loginPage;
+global.inventoryPage = selectors.inventoryPage;
+global.menu = selectors.menu;
 global.urls = urls;
+global.userRoles = userRoles.userRoles;
+global.colours = colours;
