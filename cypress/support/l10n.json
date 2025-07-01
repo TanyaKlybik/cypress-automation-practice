@@ -9,10 +9,10 @@
     "usernameIsRequired": "Epic sadface: Username is required",
     "passwordIsRequired": "Epic sadface: Password is required",
     "userIsLockedOut": "Epic sadface: Sorry, this user has been locked out.",
-    "restrictedPageOpened": "Epic sadface: You can only access /inventory.html when you are logged in.",
+    "restrictedPageOpened": "Epic sadface: You can only access '/inventory.html' when you are logged in.",
     "notFound": "Epic sadface: Username and password do not match any user in this service"
   },
-  "titleBar": {
-    "title": "Swag Labs"
+  "inventoryPage": {
+    "inventoryTitle": "Products"
   }
 }
