@@ -1,13 +1,19 @@
 const urls = {
+  // Internal pages — use relative paths
   baseUrl: 'https://www.saucedemo.com/',
   // cy.visit('/');
   inventoryPage: 'https://www.saucedemo.com/inventory.html',
   //cy.visit('/inventory.html');
+  cartPage: 'https://www.saucedemo.com/cart.html',
+  //cy.visit('/cart.html');
+
+  // External links — absolute URLs
+  aboutCompanyPage: 'https://saucelabs.com/',
+  twitterPage: 'https://twitter.com/saucelabs',
+  facebookPage: 'https://www.facebook.com/saucelabs',
+  linkedinPage: 'https://www.linkedin.com/company/sauce-labs/',
+  termsOfService: '',
+  privacyPolicy: '',
 };
 
 module.exports = urls;
-
-//Example
-//import urls from '../support/urls';
-// cy.visit(urls.baseUrl);
-

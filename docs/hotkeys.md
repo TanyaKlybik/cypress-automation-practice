@@ -13,3 +13,5 @@
 - **F12**: Go to Definition.
 - **Alt+Left Arrow**: Navigate Back.
 - **Alt+Right Arrow**: Navigate Forward.
+- **Ctrl+Alt+Shift+J**: Multi-cursor for all selected occurrences.
+- **Ctrl+C**: Switch keyboard layout to English in Aqua if you accidentally started typing in Russian to prevent strange symbols.

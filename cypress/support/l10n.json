@@ -14,5 +14,8 @@
   },
   "inventoryPage": {
     "inventoryTitle": "Products"
+  },
+  "cartPage": {
+    "cartTitle": "Your Cart"
   }
 }
