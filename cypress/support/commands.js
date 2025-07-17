@@ -56,3 +56,25 @@ Cypress.Commands.add('logout', () => {
     cy.get(menu.logoutButton).click();
   });
 });
+
+Cypress.Commands.add('shouldBeSorted', (itemsSelector, fieldSelector) => {
+  cy.get(itemsSelector)
+    .find(fieldSelector)
+    .then(($els) => {
+      const names = Cypress._.map($els, 'innerText');
+      const sorted = [...names].sort((a, b) => a.localeCompare(b));
+      expect(names).to.deep.equal(sorted);
+    });
+});
+
+Cypress.Commands.add('getCartCount', () => {
+  return cy.get('body').then(($body) => {
+    if ($body.find(cartPage.cartBadge).length) {
+      return cy
+        .get(cartPage.cartBadge)
+        .invoke('text')
+        .then((text) => parseInt(text, 10));
+    }
+    return 0;
+  });
+});

@@ -6,6 +6,7 @@ const urls = {
   //cy.visit('/inventory.html');
   cartPage: 'https://www.saucedemo.com/cart.html',
   //cy.visit('/cart.html');
+  productDetailsPage: 'https://www.saucedemo.com/inventory-item.html',
 
   // External links — absolute URLs
   aboutCompanyPage: 'https://saucelabs.com/',

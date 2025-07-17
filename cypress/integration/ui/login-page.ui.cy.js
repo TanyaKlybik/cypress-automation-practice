@@ -177,6 +177,17 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
     });
   });
 
+  context('LoginPage: When user tries to go back after logout', () => {
+    before(() => {
+      cy.go('back');
+    });
+    it('Then user stays on login page after pressing back in the browser', () => {
+      cy.url().should('eq', urls.baseUrl);
+      cy.get(loginPage.loginButton).should('be.visible');
+      cy.get(loginPage.errorMessage).should('be.visible').and('contain.text', l10n.errors.restrictedPageOpened);
+    });
+  });
+
   context('LoginPage: When unauthorized user tries to access /inventory directly', () => {
     before(() => {
       cy.visit('/inventory.html', { failOnStatusCode: false });

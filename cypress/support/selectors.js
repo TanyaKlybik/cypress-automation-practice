@@ -13,13 +13,21 @@ const inventoryPage = {
   inventoryTitle: '[data-test="title"]',
   inventoryContainer: '[data-test="inventory-list"]',
   inventoryItem: '[data-test="inventory-item"]',
+  inventoryItemName: '[data-test="inventory-item-name"]',
+  inventoryItemDesc: '[data-test="inventory-item-desc"]',
+  inventoryItemPrice: '[data-test="inventory-item-price"]',
   addToCartButton: '[data-test^="add-to-cart"]',
   removeButton: '[data-test^="remove"]',
-  sortDropdown: '[data-test="product_sort_container"]',
+  sortDropdown: '[data-test="product-sort-container"]',
+  inventoryItemImage: '[data-test="inventory-item-img"]',
 };
 
-const header = {
-  sortDropdown: '[data-test="product_sort_container"]',
+const productPage = {
+  productImage: '.inventory_details_img',
+  productName: '[data-test="inventory-item-name"]',
+  productDesc: '[data-test="inventory-item-desc"]',
+  productPrice: '[data-test="inventory-item-price"]',
+  productRemoveButton: 'button[data-test^="remove"]',
 };
 
 const footer = {
@@ -42,12 +50,18 @@ const menu = {
 const cartPage = {
   cartTitle: '[data-test="title"]',
   cartIcon: '[data-test="shopping-cart-link"]',
+  cartBadge: '[data-test="shopping-cart-badge"]',
+  cartItem: '[data-test="inventory-item"]',
+  cartItemName: '[data-test="inventory-item-name"]',
+  cartItemDesc: '[data-test="inventory-item-desc"]',
+  cartItemPrice: '[data-test="inventory-item-price"]',
+  continueShoppingButton: '[data-test="continue-shopping"]',
 };
 
 export default {
   loginPage,
   inventoryPage,
-  header,
+  productPage,
   footer,
   menu,
   cartPage,
