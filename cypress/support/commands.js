@@ -23,3 +23,58 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('getUserDataByRole', (role) => {
+  if (!Object.values(userRoles).includes(role)) {
+    throw new Error(`Invalid user: ${role}`);
+  }
+
+  const user = Cypress.env(`${role}-data`);
+  if (user) {
+    cy.log(`User found in environment for role: ${role}`);
+    return cy.wrap(user);
+  }
+
+  return cy.fixture(`../sensitive-data/${Cypress.env('envName')}-users.json`).then((users) => {
+    const userData = users[role];
+    if (!userData) {
+      throw new Error(`User data not found for role: ${role}`);
+    }
+    Cypress.env(`${role}-data`, userData);
+    return cy.wrap(userData);
+  });
+});
+
+Cypress.Commands.add('loginPage_FillLoginForm', (user) => {
+  const { username, password } = user;
+  cy.get(loginPage.usernameInput).type(username, { delay: 0 });
+  cy.get(loginPage.passwordInput).type(password, { log: false, delay: 0 });
+});
+
+Cypress.Commands.add('logout', () => {
+  cy.get(menu.menuButton).click();
+  cy.then(() => {
+    cy.get(menu.logoutButton).click();
+  });
+});
+
+Cypress.Commands.add('shouldBeSorted', (itemsSelector, fieldSelector) => {
+  cy.get(itemsSelector)
+    .find(fieldSelector)
+    .then(($els) => {
+      const names = Cypress._.map($els, 'innerText');
+      const sorted = [...names].sort((a, b) => a.localeCompare(b));
+      expect(names).to.deep.equal(sorted);
+    });
+});
+
+Cypress.Commands.add('getCartCount', () => {
+  return cy.get('body').then(($body) => {
+    if ($body.find(cartPage.cartBadge).length) {
+      return cy
+        .get(cartPage.cartBadge)
+        .invoke('text')
+        .then((text) => parseInt(text, 10));
+    }
+    return 0;
+  });
+});
