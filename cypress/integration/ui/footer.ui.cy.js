@@ -11,6 +11,9 @@ describe('InventoryPage.Footer.Standard: Footer section', { testIsolation: false
     });
     cy.then(() => {
       cy.get(loginPage.loginButton).click();
+      cy.then(() => {
+        cy.resetAppState();
+      });
     });
   });
 

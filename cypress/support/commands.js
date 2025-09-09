@@ -78,3 +78,9 @@ Cypress.Commands.add('getCartCount', () => {
     return 0;
   });
 });
+
+Cypress.Commands.add('resetAppState', () => {
+  cy.get(menu.menuButton).click();
+  cy.get(menu.resetAppState).click();
+  cy.get(menu.closeButton).click();
+});

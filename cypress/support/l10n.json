@@ -10,12 +10,23 @@
     "passwordIsRequired": "Epic sadface: Password is required",
     "userIsLockedOut": "Epic sadface: Sorry, this user has been locked out.",
     "restrictedPageOpened": "Epic sadface: You can only access '/inventory.html' when you are logged in.",
-    "notFound": "Epic sadface: Username and password do not match any user in this service"
+    "notFound": "Epic sadface: Username and password do not match any user in this service",
+    "firstNameIsRequired": "Error: First Name is required",
+    "lastNameIsRequired": "Error: Last Name is required",
+    "postalCodeIsRequired": "Error: Postal Code is required"
   },
   "inventoryPage": {
     "inventoryTitle": "Products"
   },
   "cartPage": {
-    "cartTitle": "Your Cart"
+    "cartTitle": "Your Cart",
+    "qty": "QTY",
+    "description": "Description"
+  },
+  "checkOutInfoPage": {
+    "checkOutInfoTitle": "Checkout: Your Information",
+    "firstNamePlaceholder": "First Name",
+    "lastNamePlaceholder": "Last Name",
+    "postalCodePlaceholder": "Zip/Postal Code"
   }
 }

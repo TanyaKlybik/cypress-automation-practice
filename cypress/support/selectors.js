@@ -51,11 +51,18 @@ const cartPage = {
   cartTitle: '[data-test="title"]',
   cartIcon: '[data-test="shopping-cart-link"]',
   cartBadge: '[data-test="shopping-cart-badge"]',
-  cartItem: '[data-test="inventory-item"]',
-  cartItemName: '[data-test="inventory-item-name"]',
-  cartItemDesc: '[data-test="inventory-item-desc"]',
-  cartItemPrice: '[data-test="inventory-item-price"]',
   continueShoppingButton: '[data-test="continue-shopping"]',
+  checkoutButton: '[data-test="checkout"]',
+};
+
+const checkOutInfoPage = {
+  checkOutInfoTitle: '[data-test="title"]',
+  cancelButton: '[data-test="cancel"]',
+  firstNameInput: '[data-test="firstName"]',
+  lastNameInput: '[data-test="lastName"]',
+  postalCodeInput: '[data-test="postalCode"]',
+  continueButton: '[data-test="continue"]',
+  errorMessage: '[data-test="error"]'
 };
 
 export default {
@@ -65,4 +72,5 @@ export default {
   footer,
   menu,
   cartPage,
+  checkOutInfoPage,
 };

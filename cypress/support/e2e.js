@@ -33,6 +33,7 @@ global.productPage = selectors.productPage;
 global.footer = selectors.footer;
 global.menu = selectors.menu;
 global.cartPage = selectors.cartPage;
+global.checkOutInfoPage = selectors.checkOutInfoPage;
 global.urls = urls;
 global.userRoles = userRoles.userRoles;
 global.colours = colours;

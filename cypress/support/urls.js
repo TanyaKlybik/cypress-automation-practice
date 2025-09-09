@@ -7,6 +7,10 @@ const urls = {
   cartPage: 'https://www.saucedemo.com/cart.html',
   //cy.visit('/cart.html');
   productDetailsPage: 'https://www.saucedemo.com/inventory-item.html',
+  checkoutInfoPage: 'https://www.saucedemo.com/checkout-step-one.html',
+  //cy.visit('/checkout-step-one.html');
+  checkoutOverviewPage: 'https://www.saucedemo.com/checkout-step-two.html',
+  //cy.visit('/checkout-step-two.html');
 
   // External links — absolute URLs
   aboutCompanyPage: 'https://saucelabs.com/',

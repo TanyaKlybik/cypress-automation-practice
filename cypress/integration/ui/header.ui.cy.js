@@ -10,6 +10,9 @@ describe('InventoryPage.Header.STANDARD: Given user is logged in and inventory p
     });
     cy.then(() => {
       cy.get(loginPage.loginButton).click();
+      cy.then(() => {
+        cy.resetAppState();
+      });
     });
   });
 

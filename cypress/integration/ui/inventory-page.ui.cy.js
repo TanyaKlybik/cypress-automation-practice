@@ -12,8 +12,7 @@ describe('InventoryPage: Footer section', { testIsolation: false }, () => {
     cy.then(() => {
       cy.get(loginPage.loginButton).click();
       cy.then(() => {
-        cy.get(menu.menuButton).click();
-        cy.get(menu.resetAppState).click();
+        cy.resetAppState();
       });
     });
   });
@@ -145,6 +144,55 @@ describe('InventoryPage: Footer section', { testIsolation: false }, () => {
     });
     it('Then "Name (A to Z)" should be displayed as the selected option in the filter', () => {
       cy.get(inventoryPage.sortDropdown).find('option:selected').should('have.text', 'Name (A to Z)');
+    });
+  });
+
+  context.skip('When checking product content for end-user friendliness', () => {
+    //   TODO:https://github.com/TanyaKlybik/cypress-automation-practice/issues/12
+    before(() => {
+      cy.get(menu.closeButton).click();
+    });
+    it.skip('Then product names should not contain technical or placeholder text', () => {
+      const disallowedNamePatterns = [
+        /test/i,
+        /\(\)/,
+        /allthethings/i,
+        /assert/i,
+        /debug/i,
+        /[{}]/,
+        /[<>]/,
+      ];
+
+      cy.get(inventoryPage.inventoryItemName).each(($el) => {
+        const name = $el.text();
+        disallowedNamePatterns.forEach((pattern) => {
+          expect(name).not.to.match(
+              pattern,
+              `Disallowed pattern "${pattern}" found in product name: "${name}"`
+          );
+        });
+      });
+    });
+
+    it.skip('Then product descriptions should not contain technical or placeholder text', () => {
+      const disallowedDescriptionPatterns = [
+        /test/i,
+        /debug/i,
+        /assert/i,
+        /lorem ipsum/i,
+        /allthethings/i,
+        /\(\)/,
+      ];
+
+      cy.get(inventoryPage.inventoryItemDesc).each(($el) => {
+        const description = $el.text();
+        disallowedDescriptionPatterns.forEach((pattern) => {
+          expect(description).not.to.match(
+              pattern,
+              `Disallowed pattern "${pattern}" found in product description: "${description}"`
+          );
+        });
+      });
     });
   });
 
@@ -354,20 +402,20 @@ describe('InventoryPage: Footer section', { testIsolation: false }, () => {
       cy.get(cartPage.cartTitle).should('be.visible').and('have.text', l10n.cartPage.cartTitle);
     });
     it('Then the cart should display the added product', () => {
-      cy.get(cartPage.cartItem).should('have.length', 1);
-      cy.get(cartPage.cartItem)
+      cy.get(inventoryPage.inventoryItem).should('have.length', 1);
+      cy.get(inventoryPage.inventoryItem)
         .first()
         .within(() => {
-          cy.get(cartPage.cartItemName).should('have.text', product.name);
+          cy.get(inventoryPage.inventoryItemName).should('have.text', product.name);
         });
     });
     it('Then the product details in the cart should match those from the product page', () => {
-      cy.get(cartPage.cartItem)
+      cy.get(inventoryPage.inventoryItem)
         .first()
         .within(() => {
-          cy.get(cartPage.cartItemName).should('have.text', product.name);
-          cy.get(cartPage.cartItemDesc).should('have.text', product.desc);
-          cy.get(cartPage.cartItemPrice).should('have.text', product.price);
+          cy.get(inventoryPage.inventoryItemName).should('have.text', product.name);
+          cy.get(inventoryPage.inventoryItemDesc).should('have.text', product.desc);
+          cy.get(inventoryPage.inventoryItemPrice).should('have.text', product.price);
         });
     });
   });
@@ -402,17 +450,17 @@ describe('InventoryPage: Footer section', { testIsolation: false }, () => {
     });
     it('Then both products should be displayed in the cart', () => {
       cy.get(cartPage.cartIcon).click();
-      cy.get(cartPage.cartItem).should('have.length', 2);
-      cy.get(cartPage.cartItemName).then(($items) => {
+      cy.get(inventoryPage.inventoryItem).should('have.length', 2);
+      cy.get(inventoryPage.inventoryItemName).then(($items) => {
         const names = [...$items].map((item) => item.innerText);
         expect(names).to.include(secondProduct.name);
       });
-      cy.get(cartPage.cartItem)
+      cy.get(inventoryPage.inventoryItem)
         .eq(1)
         .within(() => {
-          cy.get(cartPage.cartItemName).should('have.text', secondProduct.name);
-          cy.get(cartPage.cartItemDesc).should('have.text', secondProduct.desc);
-          cy.get(cartPage.cartItemPrice).should('have.text', secondProduct.price);
+          cy.get(inventoryPage.inventoryItemName).should('have.text', secondProduct.name);
+          cy.get(inventoryPage.inventoryItemDesc).should('have.text', secondProduct.desc);
+          cy.get(inventoryPage.inventoryItemPrice).should('have.text', secondProduct.price);
         });
     });
     it.skip('Then both products should be displayed in the cart (when the user is on the Cart page)', () => {
@@ -422,15 +470,14 @@ describe('InventoryPage: Footer section', { testIsolation: false }, () => {
 
   context('When the user selects "Reset App State" from the menu', () => {
     before(() => {
-      cy.get(menu.menuButton).click();
-      cy.get(menu.resetAppState).click();
+      cy.resetAppState();
     });
     it('Then the cart icon counter should be reset to zero', () => {
       cy.get(cartPage.cartBadge).should('not.exist');
     });
     it('Then all products should be removed from the cart', () => {
       cy.get(cartPage.cartIcon).click();
-      cy.get(cartPage.cartItem).should('not.exist');
+      cy.get(inventoryPage.inventoryItem).should('not.exist');
     });
   });
 
@@ -462,8 +509,7 @@ describe('InventoryPage: Footer section', { testIsolation: false }, () => {
           cy.get(inventoryPage.removeButton).should('be.visible');
         });
       cy.then(() => {
-        cy.get(menu.menuButton).click();
-        cy.get(menu.resetAppState).click();
+        cy.resetAppState();
       });
     });
     it.skip('Then the cart icon should NOT display a counter', () => {
