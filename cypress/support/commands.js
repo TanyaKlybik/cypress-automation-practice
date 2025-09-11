@@ -84,3 +84,11 @@ Cypress.Commands.add('resetAppState', () => {
   cy.get(menu.resetAppState).click();
   cy.get(menu.closeButton).click();
 });
+
+Cypress.Commands.add('checkoutInfo_FillFormAndContinue', (firstName = 'John', lastName = 'Doe', postalCode = '12345') => {
+  cy.get(checkOutInfoPage.firstNameInput).clear().type(firstName);
+  cy.get(checkOutInfoPage.lastNameInput).clear().type(lastName);
+  cy.get(checkOutInfoPage.postalCodeInput).clear().type(postalCode);
+  cy.get(checkOutInfoPage.continueButton).click();
+  cy.url().should('eq', urls.checkoutOverviewPage);
+});

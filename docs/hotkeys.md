@@ -15,3 +15,4 @@
 - **Alt+Right Arrow**: Navigate Forward.
 - **Ctrl+Alt+Shift+J**: Multi-cursor for all selected occurrences.
 - **Ctrl+C**: Switch keyboard layout to English in Aqua if you accidentally started typing in Russian to prevent strange symbols.
+- **Shift+Tab**: Move selected lines one indentation level left in JetBrains IDE to quickly fix over-indented code.

@@ -65,6 +65,32 @@ const checkOutInfoPage = {
   errorMessage: '[data-test="error"]'
 };
 
+const checkOutOverviewPage = {
+  overviewTitle: '[data-test="title"]',
+  finishButton: '[data-test="finish"]',
+  cancelButton: '[data-test="cancel"]',
+  itemContainer: '[data-test="inventory-item"]',
+  itemName: '[data-test="inventory-item-name"]',
+  itemPrice: '[data-test="inventory-item-price"]',
+  itemQuantity: '[data-test="item-quantity"]',
+  itemDescription: '[data-test="inventory_item_desc"]',
+  paymentInfoLabel: '[data-test="payment-info-label"]',
+  paymentInfoValue: '[data-test="payment-info-value"]',
+  shippingInfoLabel: '[data-test="shipping-info-label"]',
+  shippingInfoValue: '[data-test="shipping-info-value"]',
+  summaryInfoLabel: '[data-test="total-info-label"]',
+  summarySubtotal: '[data-test="subtotal-label"]',
+  summaryTax: '[data-test="tax-label"]',
+  summaryTotal: '[data-test="total-label"]'
+};
+
+const checkOutCompletePage = {
+  completeTitle: '[data-test="title"]',
+  completeHeader: '[data-test="complete-header"]',
+  completeText: '[data-test="complete-text"]',
+  backHomeButton: '[data-test="back-to-products"]'
+};
+
 export default {
   loginPage,
   inventoryPage,
@@ -73,4 +99,6 @@ export default {
   menu,
   cartPage,
   checkOutInfoPage,
+  checkOutOverviewPage,
+  checkOutCompletePage
 };

@@ -94,11 +94,11 @@ describe('CheckoutInfoPage: Given the "Checkout: Your information" page is open 
             cy.get(cartPage.checkoutButton).click();
         });
         it('CheckoutInfoPage: Then user should be navigated to the Overview page', () => {
-            cy.get(checkOutInfoPage.firstNameInput).clear().type('John');
-            cy.get(checkOutInfoPage.lastNameInput).clear().type('Doe');
-            cy.get(checkOutInfoPage.postalCodeInput).clear().type('12345');
-            cy.get(checkOutInfoPage.continueButton).click();
-            cy.url().should('eq', urls.checkoutOverviewPage);
+            cy.checkoutInfo_FillFormAndContinue('John', 'Doe', '12345');
+        });
+        after(() => {
+            cy.get(cartPage.cartIcon).click();
+            cy.get(inventoryPage.removeButton).first().click();
         });
     });
 });

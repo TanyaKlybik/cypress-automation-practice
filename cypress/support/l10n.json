@@ -13,7 +13,8 @@
     "notFound": "Epic sadface: Username and password do not match any user in this service",
     "firstNameIsRequired": "Error: First Name is required",
     "lastNameIsRequired": "Error: Last Name is required",
-    "postalCodeIsRequired": "Error: Postal Code is required"
+    "postalCodeIsRequired": "Error: Postal Code is required",
+    "overviewLoadFailed": "Error: Overview page failed to load"
   },
   "inventoryPage": {
     "inventoryTitle": "Products"
@@ -28,5 +29,24 @@
     "firstNamePlaceholder": "First Name",
     "lastNamePlaceholder": "Last Name",
     "postalCodePlaceholder": "Zip/Postal Code"
+  },
+  "checkOutOverviewPage": {
+    "overviewTitle": "Checkout: Overview",
+    "finishButton": "Finish",
+    "cancelButton": "Cancel",
+    "summarySubtotalLabel": "Item total",
+    "summaryTaxLabel": "Tax",
+    "summaryTotalLabel": "Total",
+    "summaryInfoLabel": "Price Total",
+    "paymentInfoLabel": "Payment Information:",
+    "paymentInfoValue": "SauceCard #31337",
+    "shippingInfoLabel": "Shipping Information:",
+    "shippingInfoValue": "Free Pony Express Delivery!"
+  },
+  "checkOutCompletePage": {
+    "completeTitle": "Checkout: Complete!",
+    "completeHeader": "Thank you for your order!",
+    "completeText": "Your order has been dispatched, and will arrive just as fast as the pony can get there!",
+    "backHomeButton": "Back Home"
   }
 }

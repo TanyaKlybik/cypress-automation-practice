@@ -11,6 +11,8 @@ const urls = {
   //cy.visit('/checkout-step-one.html');
   checkoutOverviewPage: 'https://www.saucedemo.com/checkout-step-two.html',
   //cy.visit('/checkout-step-two.html');
+  checkoutCompletePage: 'https://www.saucedemo.com/checkout-complete.html',
+  //cy.visit('/checkout-complete.html');
 
   // External links — absolute URLs
   aboutCompanyPage: 'https://saucelabs.com/',
