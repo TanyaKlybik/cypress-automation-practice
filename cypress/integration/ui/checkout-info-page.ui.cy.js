@@ -44,10 +44,10 @@ describe('CheckoutInfoPage: Given the "Checkout: Your information" page is open 
             cy.get(checkOutInfoPage.postalCodeInput).should('have.attr', 'placeholder', l10n.checkOutInfoPage.postalCodePlaceholder);
         });
         it('CheckoutInfoPage: Then "Cancel" button should be visible', () => {
-            cy.get(checkOutInfoPage.cancelButton).should('be.visible');
+            cy.get(checkOutInfoPage.cancelButton).should('be.visible').and('contain.text', l10n.checkOutInfoPage.cancel);
         });
         it('CheckoutInfoPage: Then "Continue" button should be visible', () => {
-            cy.get(checkOutInfoPage.continueButton).should('be.visible');
+            cy.get(checkOutInfoPage.continueButton).should('be.visible').and('have.value', l10n.checkOutInfoPage.continue);;
         });
         it('CartPage: Then Cart badge should display correct number', () => {
             cy.get(cartPage.cartBadge).should('contain', '1');
@@ -98,7 +98,9 @@ describe('CheckoutInfoPage: Given the "Checkout: Your information" page is open 
         });
         after(() => {
             cy.get(cartPage.cartIcon).click();
-            cy.get(inventoryPage.removeButton).first().click();
+            cy.then(() => {
+                cy.get(inventoryPage.removeButton).first().click();
+            });
         });
     });
 });

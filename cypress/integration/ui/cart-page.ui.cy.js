@@ -31,10 +31,10 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
             cy.contains(l10n.cartPage.description).should('be.visible');
         });
         it('CartPage: Then it should display "Continue Shopping" button', () => {
-            cy.get(cartPage.continueShoppingButton).should('be.visible');
+            cy.get(cartPage.continueShoppingButton).should('be.visible').and('contain.text', l10n.cartPage.continueShopping);
         });
         it('CartPage: Then it should display "Checkout" button', () => {
-            cy.get(cartPage.checkoutButton).should('be.visible');
+            cy.get(cartPage.checkoutButton).should('be.visible').and('contain.text', l10n.cartPage.checkout);
         });
         it.skip('CartPage: Then it should not allow checkout when cart is empty', () => {
             //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/13
@@ -87,7 +87,7 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
             cy.get(inventoryPage.inventoryItem)
                 .first()
                 .within(() => {
-                    cy.get(inventoryPage.removeButton).should('be.visible');
+                    cy.get(inventoryPage.removeButton).should('be.visible').and('contain.text', l10n.inventoryPage.remove);
                 });
         });
     });

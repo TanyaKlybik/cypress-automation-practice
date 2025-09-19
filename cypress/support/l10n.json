@@ -17,18 +17,24 @@
     "overviewLoadFailed": "Error: Overview page failed to load"
   },
   "inventoryPage": {
-    "inventoryTitle": "Products"
+    "inventoryTitle": "Products",
+    "addToCart": "Add to cart",
+    "remove": "Remove"
   },
   "cartPage": {
     "cartTitle": "Your Cart",
     "qty": "QTY",
-    "description": "Description"
+    "description": "Description",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Checkout"
   },
   "checkOutInfoPage": {
     "checkOutInfoTitle": "Checkout: Your Information",
     "firstNamePlaceholder": "First Name",
     "lastNamePlaceholder": "Last Name",
-    "postalCodePlaceholder": "Zip/Postal Code"
+    "postalCodePlaceholder": "Zip/Postal Code",
+    "cancel": "Cancel",
+    "continue": "Continue"
   },
   "checkOutOverviewPage": {
     "overviewTitle": "Checkout: Overview",

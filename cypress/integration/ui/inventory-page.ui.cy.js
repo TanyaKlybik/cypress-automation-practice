@@ -52,7 +52,7 @@ describe('InventoryPage: Footer section', { testIsolation: false }, () => {
     });
     it('Then each product should have an "Add to cart" button', () => {
       cy.get(inventoryPage.inventoryItem).each(($el) => {
-        cy.wrap($el).find(inventoryPage.addToCartButton).should('be.visible').and('contain.text', 'Add to cart');
+        cy.wrap($el).find(inventoryPage.addToCartButton).should('be.visible').and('contain.text', l10n.inventoryPage.addToCart);
       });
     });
     it('Then all products should be sorted by default', () => {
@@ -242,7 +242,7 @@ describe('InventoryPage: Footer section', { testIsolation: false }, () => {
         });
     });
     it('Then the button should change from "Add to cart" to "Remove"', () => {
-      cy.get(inventoryPage.inventoryItem).eq(1).find(inventoryPage.removeButton).should('be.visible').and('contain.text', 'Remove');
+      cy.get(inventoryPage.inventoryItem).eq(1).find(inventoryPage.removeButton).should('be.visible').and('contain.text', l10n.inventoryPage.remove);
     });
   });
 

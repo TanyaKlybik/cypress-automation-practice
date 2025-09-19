@@ -68,8 +68,10 @@ describe('CheckoutOverviewPage: Given the "Checkout: Overview" page is open', { 
       });
       after(() => {
         cy.get(cartPage.cartIcon).click();
-        cy.get(cartPage.checkoutButton).click();
-        cy.checkoutInfo_FillFormAndContinue('John', 'Doe', '12345');
+        cy.then(() => {
+          cy.get(cartPage.checkoutButton).click();
+          cy.checkoutInfo_FillFormAndContinue('John', 'Doe', '12345');
+        });
       });
     });
 
@@ -80,4 +82,61 @@ describe('CheckoutOverviewPage: Given the "Checkout: Overview" page is open', { 
         cy.get(checkOutCompletePage.completeTitle).should('have.text', l10n.checkOutCompletePage.completeTitle);
       });
     });
+
+  context('CheckoutOverviewPage: When user adds all 6 products', () => {
+    let productsData = [];
+
+    before(() => {
+      cy.get(menu.menuButton).click();
+      cy.get(menu.allItems).click();
+      cy.get(inventoryPage.inventoryItem).each(($el, index) => {
+        cy.get(inventoryPage.inventoryItemName).eq(index).invoke('text').then((name) => {
+          cy.get(inventoryPage.inventoryItemDesc).eq(index).invoke('text').then((desc) => {
+            cy.get(inventoryPage.inventoryItemPrice).eq(index).invoke('text').then((priceText) => {
+              const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
+              productsData.push({ name: name.trim(), desc: desc.trim(), price });
+            });
+          });
+        });
+        cy.wrap($el).find(inventoryPage.addToCartButton).click();
+      });
+      cy.get(cartPage.cartIcon).click();
+      cy.get(cartPage.checkoutButton).click();
+      cy.checkoutInfo_FillFormAndContinue('John', 'Doe', '12345');
+    });
+
+    it('CheckoutOverviewPage: Then 6 products should be displayed with correct name, description and price', () => {
+      cy.get(checkOutOverviewPage.itemContainer).should('have.length', 6);
+      cy.get(checkOutOverviewPage.itemContainer).each(($el, index) => {
+        cy.wrap($el).find(checkOutOverviewPage.itemName).should('have.text', productsData[index].name);
+        cy.wrap($el).find(checkOutOverviewPage.itemDescription).should('have.text', productsData[index].desc);
+        cy.wrap($el).find(checkOutOverviewPage.itemPrice).invoke('text').then(text => {
+          const price = parseFloat(text.replace(/[^\d.]/g, ''));
+          expect(price).to.eq(productsData[index].price);
+        });
+      });
+    });
+    it('CheckoutOverviewPage: Then Subtotal should equal sum of all product prices', () => {
+      const expectedSubtotal = productsData.reduce((acc, p) => acc + p.price, 0);
+
+      cy.get(checkOutOverviewPage.summarySubtotal).invoke('text').then(text => {
+          const subtotal = parseFloat(text.replace(/[^\d.]/g, ''));
+          expect(subtotal).to.be.closeTo(expectedSubtotal, 0.01);
+        });
+    });
+    it('CheckoutOverviewPage: Then Total should equal Subtotal + Tax', () => {
+      let subtotal, tax, total;
+
+      cy.get(checkOutOverviewPage.summarySubtotal).invoke('text').then(text => {
+        subtotal = parseFloat(text.replace(/[^\d.]/g, ''));
+      });
+      cy.get(checkOutOverviewPage.summaryTax).invoke('text').then(text => {
+        tax = parseFloat(text.replace(/[^\d.]/g, ''));
+      });
+      cy.get(checkOutOverviewPage.summaryTotal).invoke('text').then(text => {
+        total = parseFloat(text.replace(/[^\d.]/g, ''));
+        expect(total).to.be.closeTo(subtotal + tax, 0.01);
+      });
+    });
+  });
 });
