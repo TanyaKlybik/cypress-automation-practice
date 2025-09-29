@@ -62,7 +62,7 @@ const checkOutInfoPage = {
   lastNameInput: '[data-test="lastName"]',
   postalCodeInput: '[data-test="postalCode"]',
   continueButton: '[data-test="continue"]',
-  errorMessage: '[data-test="error"]'
+  errorMessage: '[data-test="error"]',
 };
 
 const checkOutOverviewPage = {
@@ -81,14 +81,14 @@ const checkOutOverviewPage = {
   summaryInfoLabel: '[data-test="total-info-label"]',
   summarySubtotal: '[data-test="subtotal-label"]',
   summaryTax: '[data-test="tax-label"]',
-  summaryTotal: '[data-test="total-label"]'
+  summaryTotal: '[data-test="total-label"]',
 };
 
 const checkOutCompletePage = {
   completeTitle: '[data-test="title"]',
   completeHeader: '[data-test="complete-header"]',
   completeText: '[data-test="complete-text"]',
-  backHomeButton: '[data-test="back-to-products"]'
+  backHomeButton: '[data-test="back-to-products"]',
 };
 
 export default {
@@ -100,5 +100,5 @@ export default {
   cartPage,
   checkOutInfoPage,
   checkOutOverviewPage,
-  checkOutCompletePage
+  checkOutCompletePage,
 };

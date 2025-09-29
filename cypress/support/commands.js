@@ -85,7 +85,8 @@ Cypress.Commands.add('resetAppState', () => {
   cy.get(menu.closeButton).click();
 });
 
-Cypress.Commands.add('checkoutInfo_FillFormAndContinue', (firstName = 'John', lastName = 'Doe', postalCode = '12345') => {
+Cypress.Commands.add('checkoutInfo_FillFormAndContinue', (user) => {
+  const { firstName, lastName, postalCode } = user;
   cy.get(checkOutInfoPage.firstNameInput).clear().type(firstName);
   cy.get(checkOutInfoPage.lastNameInput).clear().type(lastName);
   cy.get(checkOutInfoPage.postalCodeInput).clear().type(postalCode);

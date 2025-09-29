@@ -153,44 +153,23 @@ describe('InventoryPage: Footer section', { testIsolation: false }, () => {
       cy.get(menu.closeButton).click();
     });
     it.skip('Then product names should not contain technical or placeholder text', () => {
-      const disallowedNamePatterns = [
-        /test/i,
-        /\(\)/,
-        /allthethings/i,
-        /assert/i,
-        /debug/i,
-        /[{}]/,
-        /[<>]/,
-      ];
+      const disallowedNamePatterns = [/test/i, /\(\)/, /allthethings/i, /assert/i, /debug/i, /[{}]/, /[<>]/];
 
       cy.get(inventoryPage.inventoryItemName).each(($el) => {
         const name = $el.text();
         disallowedNamePatterns.forEach((pattern) => {
-          expect(name).not.to.match(
-              pattern,
-              `Disallowed pattern "${pattern}" found in product name: "${name}"`
-          );
+          expect(name).not.to.match(pattern, `Disallowed pattern "${pattern}" found in product name: "${name}"`);
         });
       });
     });
 
     it.skip('Then product descriptions should not contain technical or placeholder text', () => {
-      const disallowedDescriptionPatterns = [
-        /test/i,
-        /debug/i,
-        /assert/i,
-        /lorem ipsum/i,
-        /allthethings/i,
-        /\(\)/,
-      ];
+      const disallowedDescriptionPatterns = [/test/i, /debug/i, /assert/i, /lorem ipsum/i, /allthethings/i, /\(\)/];
 
       cy.get(inventoryPage.inventoryItemDesc).each(($el) => {
         const description = $el.text();
         disallowedDescriptionPatterns.forEach((pattern) => {
-          expect(description).not.to.match(
-              pattern,
-              `Disallowed pattern "${pattern}" found in product description: "${description}"`
-          );
+          expect(description).not.to.match(pattern, `Disallowed pattern "${pattern}" found in product description: "${description}"`);
         });
       });
     });
