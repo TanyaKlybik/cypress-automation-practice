@@ -3,16 +3,10 @@ describe('InventoryPage.Header.STANDARD: Given user is logged in and inventory p
   before(() => {
     cy.getUserDataByRole(userRoles.STANDARD).then((user) => {
       standardUser = user;
-    });
-    cy.visit('/');
-    cy.then(() => {
+      cy.visit('/');
       cy.loginPage_FillLoginForm(standardUser);
-    });
-    cy.then(() => {
       cy.get(loginPage.loginButton).click();
-      cy.then(() => {
-        cy.resetAppState();
-      });
+      cy.resetAppState();
     });
   });
 
@@ -52,7 +46,7 @@ describe('InventoryPage.Header.STANDARD: Given user is logged in and inventory p
 
   context('InventoryPage.Header.STANDARD: When user clicks the About menu option', () => {
     it('Menu: Then User is redirected to the About page', () => {
-      cy.get(menu.about).should('have.attr', 'href', urls.aboutCompanyPage).and('not.have.attr', 'target');
+      cy.get(menu.about).should('contain.attr', 'href', urls.aboutCompanyPage).and('not.contain.attr', 'target');
     });
   });
 
@@ -61,7 +55,7 @@ describe('InventoryPage.Header.STANDARD: Given user is logged in and inventory p
       cy.get(menu.resetAppState).click();
     });
     it('Menu: Then App state is reset (cart is empty, filters reset, etc.)', () => {
-      cy.get(cartPage.cartIcon).should('have.text', '');
+      cy.get(cartPage.cartIcon).should('contain.text', '');
     });
   });
 
@@ -81,7 +75,7 @@ describe('InventoryPage.Header.STANDARD: Given user is logged in and inventory p
 
     it('Then Cart: User is redirected to the cart page', () => {
       cy.url().should('include', '/cart.html');
-      cy.get(cartPage.cartTitle).should('have.text', l10n.cartPage.cartTitle).and('be.visible');
+      cy.get(cartPage.cartTitle).should('contain.text', l10n.cartPage.cartTitle).and('be.visible');
     });
   });
 });

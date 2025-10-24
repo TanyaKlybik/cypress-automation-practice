@@ -50,39 +50,12 @@ Cypress.Commands.add('loginPage_FillLoginForm', (user) => {
   cy.get(loginPage.passwordInput).type(password, { log: false, delay: 0 });
 });
 
-Cypress.Commands.add('logout', () => {
-  cy.get(menu.menuButton).click();
-  cy.then(() => {
-    cy.get(menu.logoutButton).click();
-  });
-});
-
-Cypress.Commands.add('shouldBeSorted', (itemsSelector, fieldSelector) => {
-  cy.get(itemsSelector)
-    .find(fieldSelector)
-    .then(($els) => {
-      const names = Cypress._.map($els, 'innerText');
-      const sorted = [...names].sort((a, b) => a.localeCompare(b));
-      expect(names).to.deep.equal(sorted);
-    });
-});
-
-Cypress.Commands.add('getCartCount', () => {
-  return cy.get('body').then(($body) => {
-    if ($body.find(cartPage.cartBadge).length) {
-      return cy
-        .get(cartPage.cartBadge)
-        .invoke('text')
-        .then((text) => parseInt(text, 10));
-    }
-    return 0;
-  });
-});
-
 Cypress.Commands.add('resetAppState', () => {
+  //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/11
   cy.get(menu.menuButton).click();
   cy.get(menu.resetAppState).click();
   cy.get(menu.closeButton).click();
+  cy.reload();
 });
 
 Cypress.Commands.add('checkoutInfo_FillFormAndContinue', (user) => {

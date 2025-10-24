@@ -10,6 +10,7 @@ import l10n from './l10n.json';
 import selectors from './selectors';
 import requirements from './requirements';
 import urls from './urls';
+import utils from './utils';
 import userRoles from './user-roles';
 import colours from './colours';
 
@@ -26,5 +27,6 @@ global.checkOutInfoPage = selectors.checkOutInfoPage;
 global.checkOutOverviewPage = selectors.checkOutOverviewPage;
 global.checkOutCompletePage = selectors.checkOutCompletePage;
 global.urls = urls;
+global.utils = utils;
 global.userRoles = userRoles.userRoles;
 global.colours = colours;
