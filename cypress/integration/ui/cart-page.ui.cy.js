@@ -1,7 +1,4 @@
-import { productNames } from '../../test-data/products.test-data';
-const firstProduct = productNames.backpack;
-const secondProduct = productNames.bike;
-const thirdProduct = productNames.tshirt;
+import { cartPageTestData } from '../../test-data/cart-page.test-data';
 
 describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
   let standardUser;
@@ -21,7 +18,7 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
       cy.get(cartPage.cartIcon).click();
     });
     it('CartPage: Then Title should display', () => {
-      cy.get(cartPage.cartTitle).should('contain.text', l10n.cartPage.cartTitle);
+      cy.get(cartPage.cartTitle).should('have.text', l10n.cartPage.cartTitle);
     });
     it('CartPage: Then Cart icon should display', () => {
       cy.get(cartPage.cartIcon).should('be.visible');
@@ -33,10 +30,10 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
       cy.contains(l10n.cartPage.description).should('be.visible');
     });
     it('CartPage: Then Continue Shopping button should display', () => {
-      cy.get(cartPage.continueShoppingButton).should('be.visible').and('contain.text', l10n.cartPage.continueShopping);
+      cy.get(cartPage.continueShoppingButton).should('be.visible').and('have.text', l10n.cartPage.continueShopping);
     });
     it('CartPage: Then Checkout button should display', () => {
-      cy.get(cartPage.checkoutButton).should('be.visible').and('contain.text', l10n.cartPage.checkout);
+      cy.get(cartPage.checkoutButton).should('be.visible').and('have.text', l10n.cartPage.checkout);
     });
     it('CartPage: Then Cart badge should not display when the cart is empty', () => {
       cy.get(cartPage.cartBadge).should('not.exist');
@@ -60,11 +57,7 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
     before(() => {
       cy.get(menu.menuButton).click();
       cy.get(menu.allItems).click();
-      cy.contains(inventoryPage.inventoryItemName, thirdProduct.name)
-        .parents(inventoryPage.inventoryItem)
-        .within(() => {
-          cy.get(inventoryPage.addToCartButton).click();
-        });
+      cy.contains(inventoryPage.inventoryItemName, cartPageTestData.tshirt.name).parents(inventoryPage.inventoryItem).find(inventoryPage.addToCartButton).click();
     });
     it('CartPage: Then user navigates to Cart Page', () => {
       cy.get(cartPage.cartIcon).click();
@@ -77,17 +70,13 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
       cy.get(inventoryPage.inventoryItem)
         .first()
         .within(() => {
-          cy.get(inventoryPage.inventoryItemName).should('contain.text', thirdProduct.name);
-          cy.get(inventoryPage.inventoryItemDesc).should('contain.text', thirdProduct.description);
-          cy.get(inventoryPage.inventoryItemPrice).should('contain.text', thirdProduct.price);
+          cy.get(inventoryPage.inventoryItemName).should('have.text', cartPageTestData.tshirt.name);
+          cy.get(inventoryPage.inventoryItemDesc).should('have.text', cartPageTestData.tshirt.description);
+          cy.get(inventoryPage.inventoryItemPrice).should('have.text', cartPageTestData.tshirt.price);
         });
     });
     it('CartPage: Then Remove button should be visible for the item', () => {
-      cy.get(inventoryPage.inventoryItem)
-        .first()
-        .within(() => {
-          cy.get(inventoryPage.removeButton).should('be.visible').and('contain.text', l10n.inventoryPage.remove);
-        });
+      cy.get(inventoryPage.inventoryItem).first().find(inventoryPage.removeButton).should('be.visible').and('have.text', l10n.inventoryPage.remove);
     });
   });
 
@@ -108,7 +97,7 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
     });
     it('CartPage: Then Checkout button should navigate to Checkout Your information page', () => {
       cy.url().should('include', '/checkout-step-one.html');
-      cy.get(checkOutInfoPage.checkOutInfoTitle).should('contain.text', l10n.checkOutInfoPage.checkOutInfoTitle);
+      cy.get(checkOutInfoPage.checkOutInfoTitle).should('have.text', l10n.checkOutInfoPage.checkOutInfoTitle);
     });
     after(() => {
       cy.get(menu.menuButton).click();
@@ -119,11 +108,7 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
 
   context('CartPage: When user removes items from the shopping cart', () => {
     before(() => {
-      cy.contains(inventoryPage.inventoryItemName, thirdProduct.name)
-        .parents(inventoryPage.inventoryItem)
-        .within(() => {
-          cy.get(inventoryPage.removeButton).click();
-        });
+      cy.contains(inventoryPage.inventoryItemName, cartPageTestData.tshirt.name).parents(inventoryPage.inventoryItem).find(inventoryPage.removeButton).click();
     });
     it('CartPage: Then Cart should not contain any items', () => {
       cy.get(inventoryPage.inventoryItem).should('not.exist');
@@ -145,38 +130,29 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
 
   context('CartPage: When user adds two items to the shopping cart', () => {
     before(() => {
-      cy.contains(inventoryPage.inventoryItemName, firstProduct.name)
-        .parents(inventoryPage.inventoryItem)
-        .within(() => {
-          cy.get(inventoryPage.addToCartButton).click();
-        });
-      cy.contains(inventoryPage.inventoryItemName, secondProduct.name)
-        .parents(inventoryPage.inventoryItem)
-        .within(() => {
-          cy.get(inventoryPage.addToCartButton).click();
-        });
+      cy.contains(inventoryPage.inventoryItemName, cartPageTestData.jacket.name).parents(inventoryPage.inventoryItem).find(inventoryPage.addToCartButton).click();
+      cy.contains(inventoryPage.inventoryItemName, cartPageTestData.onesie.name).parents(inventoryPage.inventoryItem).find(inventoryPage.addToCartButton).click();
       cy.get(cartPage.cartIcon).click();
     });
     it('CartPage: Then Cart should contain two items', () => {
       cy.get(inventoryPage.inventoryItem).should('have.length', 2);
     });
-    it('CartPage: Then Backpack details should match the added product', () => {
+    it('CartPage: Then the first product details should match the added product', () => {
       cy.get(inventoryPage.inventoryItem)
         .eq(0)
         .within(() => {
-          cy.get(inventoryPage.inventoryItemName).should('contain.text', firstProduct.name);
-          //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/12
-          //cy.get(inventoryPage.inventoryItemDesc).should('contain.text', firstProduct.description);
-          cy.get(inventoryPage.inventoryItemPrice).should('contain.text', firstProduct.price);
+          cy.get(inventoryPage.inventoryItemName).should('have.text', cartPageTestData.jacket.name);
+          cy.get(inventoryPage.inventoryItemDesc).should('have.text', cartPageTestData.jacket.description);
+          cy.get(inventoryPage.inventoryItemPrice).should('have.text', cartPageTestData.jacket.price);
         });
     });
-    it('CartPage: Then Bike details should match the added product', () => {
+    it('CartPage: Then the second product details should match the added product', () => {
       cy.get(inventoryPage.inventoryItem)
         .eq(1)
         .within(() => {
-          cy.get(inventoryPage.inventoryItemName).should('contain.text', secondProduct.name);
-          cy.get(inventoryPage.inventoryItemDesc).should('contain.text', secondProduct.description);
-          cy.get(inventoryPage.inventoryItemPrice).should('contain.text', secondProduct.price);
+          cy.get(inventoryPage.inventoryItemName).should('have.text', cartPageTestData.onesie.name);
+          cy.get(inventoryPage.inventoryItemDesc).should('have.text', cartPageTestData.onesie.description);
+          cy.get(inventoryPage.inventoryItemPrice).should('have.text', cartPageTestData.onesie.price);
         });
     });
   });

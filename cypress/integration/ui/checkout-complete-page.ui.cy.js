@@ -1,4 +1,4 @@
-import { checkoutInfo } from '../../test-data/checkout-info-page.test-data';
+import { checkoutCompletePageTestData } from '../../test-data/checkout-complete-page.test-data';
 
 describe('CheckoutCompletePage: Given the "Checkout: Complete!" page is open', { testIsolation: false }, () => {
   let standardUser;
@@ -13,23 +13,23 @@ describe('CheckoutCompletePage: Given the "Checkout: Complete!" page is open', {
       cy.get(inventoryPage.addToCartButton).first().click();
       cy.get(cartPage.cartIcon).click();
       cy.get(cartPage.checkoutButton).click();
-      cy.checkoutInfo_FillFormAndContinue(checkoutInfo.testDataUser);
+      cy.checkoutInfo_FillFormAndContinue(checkoutCompletePageTestData.testDataUser);
       cy.get(checkOutOverviewPage.finishButton).click();
     });
   });
 
   context('CheckoutCompletePage: When user is on the Checkout Complete page', () => {
     it('CheckoutCompletePage: Then Complete page title should be visible', () => {
-      cy.get(checkOutCompletePage.completeTitle).should('contain.text', l10n.checkOutCompletePage.completeTitle);
+      cy.get(checkOutCompletePage.completeTitle).should('have.text', l10n.checkOutCompletePage.completeTitle);
     });
     it('CheckoutCompletePage: Then Complete header should be visible', () => {
-      cy.get(checkOutCompletePage.completeHeader).should('contain.text', l10n.checkOutCompletePage.completeHeader);
+      cy.get(checkOutCompletePage.completeHeader).should('have.text', l10n.checkOutCompletePage.completeHeader);
     });
     it('CheckoutCompletePage: Then Complete message text should be visible', () => {
-      cy.get(checkOutCompletePage.completeText).should('contain.text', l10n.checkOutCompletePage.completeText);
+      cy.get(checkOutCompletePage.completeText).should('have.text', l10n.checkOutCompletePage.completeText);
     });
     it('CheckoutCompletePage: Then Back Home button should be visible', () => {
-      cy.get(checkOutCompletePage.backHomeButton).should('be.visible').and('contain.text', l10n.checkOutCompletePage.backHomeButton);
+      cy.get(checkOutCompletePage.backHomeButton).should('be.visible').and('have.text', l10n.checkOutCompletePage.backHomeButton);
     });
   });
 
@@ -39,7 +39,7 @@ describe('CheckoutCompletePage: Given the "Checkout: Complete!" page is open', {
     });
     it('CheckoutCompletePage: Then user should be navigated to Inventory page', () => {
       cy.url().should('eq', urls.inventoryPage);
-      cy.get(inventoryPage.inventoryTitle).should('contain.text', l10n.inventoryPage.inventoryTitle);
+      cy.get(inventoryPage.inventoryTitle).should('have.text', l10n.inventoryPage.inventoryTitle);
       cy.get(inventoryPage.inventoryContainer).should('be.visible');
     });
   });

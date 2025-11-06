@@ -58,6 +58,40 @@ Cypress.Commands.add('resetAppState', () => {
   cy.reload();
 });
 
+Cypress.Commands.add('shouldHavePriceFormat', { prevSubject: true }, (subject) => {
+  cy.wrap(subject)
+    .should('be.visible')
+    .invoke('text')
+    .should('match', /\$\d+\.\d{2}/);
+});
+
+Cypress.Commands.add('shouldHaveValidImages', { prevSubject: true }, (subject) => {
+  cy.wrap(subject)
+    .find('img')
+    .should('be.visible')
+    .and(($imgs) => {
+      $imgs.each((_, img) => expect(img.naturalWidth).to.be.greaterThan(0));
+    });
+});
+
+Cypress.Commands.add('shouldBeSortedByName', { prevSubject: true }, (subject, order = 'asc') => {
+  cy.wrap(subject)
+    .then(($els) => Cypress._.map($els, 'innerText'))
+    .then((names) => {
+      const sorted = [...names].sort((a, b) => (order === 'asc' ? a.localeCompare(b) : b.localeCompare(a)));
+      expect(names).to.deep.equal(sorted);
+    });
+});
+
+Cypress.Commands.add('shouldBeSortedByPrice', { prevSubject: true }, (subject, order = 'asc') => {
+  cy.wrap(subject)
+    .then(($els) => Cypress._.map($els, (el) => parseFloat(el.innerText.replace('$', ''))))
+    .then((prices) => {
+      const sorted = [...prices].sort((a, b) => (order === 'asc' ? a - b : b - a));
+      expect(prices).to.deep.equal(sorted);
+    });
+});
+
 Cypress.Commands.add('checkoutInfo_FillFormAndContinue', (user) => {
   const { firstName, lastName, postalCode } = user;
   cy.get(checkOutInfoPage.firstNameInput).clear().type(firstName);

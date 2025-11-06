@@ -18,16 +18,16 @@ describe('InventoryPage.Header.STANDARD: Given user is logged in and inventory p
       cy.get(menu.menuPanel).should('be.visible');
     });
     it('Menu: Then All Items option is present in the menu', () => {
-      cy.get(menu.allItems).should('be.visible').and('contain.text', 'All Items');
+      cy.get(menu.allItems).should('be.visible').and('have.text', 'All Items');
     });
     it('Menu: Then About option is present in the menu', () => {
-      cy.get(menu.about).should('be.visible').and('contain.text', 'About');
+      cy.get(menu.about).should('be.visible').and('have.text', 'About');
     });
     it('Menu: Then Reset App State option is present in the menu', () => {
-      cy.get(menu.resetAppState).should('be.visible').and('contain.text', 'Reset App State');
+      cy.get(menu.resetAppState).should('be.visible').and('have.text', 'Reset App State');
     });
     it('Menu: Then Logout option is present in the menu', () => {
-      cy.get(menu.logoutButton).should('be.visible').and('contain.text', 'Logout');
+      cy.get(menu.logoutButton).should('be.visible').and('have.text', 'Logout');
     });
     it('Menu: Then Close (X) button is visible in the menu', () => {
       cy.get(menu.closeButton).should('be.visible');
@@ -46,7 +46,7 @@ describe('InventoryPage.Header.STANDARD: Given user is logged in and inventory p
 
   context('InventoryPage.Header.STANDARD: When user clicks the About menu option', () => {
     it('Menu: Then User is redirected to the About page', () => {
-      cy.get(menu.about).should('contain.attr', 'href', urls.aboutCompanyPage).and('not.contain.attr', 'target');
+      cy.get(menu.about).should('have.attr', 'href', urls.aboutCompanyPage).and('not.have.attr', 'target');
     });
   });
 
@@ -55,7 +55,7 @@ describe('InventoryPage.Header.STANDARD: Given user is logged in and inventory p
       cy.get(menu.resetAppState).click();
     });
     it('Menu: Then App state is reset (cart is empty, filters reset, etc.)', () => {
-      cy.get(cartPage.cartIcon).should('contain.text', '');
+      cy.get(cartPage.cartIcon).should('have.text', '');
     });
   });
 
@@ -75,7 +75,7 @@ describe('InventoryPage.Header.STANDARD: Given user is logged in and inventory p
 
     it('Then Cart: User is redirected to the cart page', () => {
       cy.url().should('include', '/cart.html');
-      cy.get(cartPage.cartTitle).should('contain.text', l10n.cartPage.cartTitle).and('be.visible');
+      cy.get(cartPage.cartTitle).should('have.text', l10n.cartPage.cartTitle).and('be.visible');
     });
   });
 });
