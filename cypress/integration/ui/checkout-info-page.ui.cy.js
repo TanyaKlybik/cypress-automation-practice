@@ -1,8 +1,7 @@
 import { checkoutInfoPageTestData } from '../../test-data/checkout-info-page.test-data';
 
-describe('CheckoutInfoPage: Given the "Checkout: Your information" page is open after adding 1 product to the Cart ', { testIsolation: false }, () => {
+describe('CheckoutInfoPage: Given the Checkout Your information page is open after adding 1 product to the Cart ', { testIsolation: false }, () => {
   let standardUser;
-
   before(() => {
     cy.getUserDataByRole(userRoles.STANDARD).then((user) => {
       standardUser = user;
@@ -17,7 +16,7 @@ describe('CheckoutInfoPage: Given the "Checkout: Your information" page is open 
   });
 
   context('CheckoutInfoPage: When user is on the Checkout Your information page', () => {
-    it('CheckoutInfoPage: Then page title "Checkout: Your Information" should be visible', () => {
+    it('CheckoutInfoPage: Then page title Checkout Your Information should be visible', () => {
       cy.get(checkOutInfoPage.checkOutInfoTitle).should('have.text', l10n.checkOutInfoPage.checkOutInfoTitle);
     });
     it('CheckoutInfoPage: Then First Name input field should be visible', () => {
@@ -35,7 +34,7 @@ describe('CheckoutInfoPage: Given the "Checkout: Your information" page is open 
     it('CheckoutInfoPage: Then Postal Code input field should be visible', () => {
       cy.get(checkOutInfoPage.postalCodeInput).should('be.visible');
     });
-    it('CheckoutInfoPage: Then Postal Code input field should have placeholder Zip/Postal Code', () => {
+    it('CheckoutInfoPage: Then Postal Code input field should have placeholder Postal Code', () => {
       cy.get(checkOutInfoPage.postalCodeInput).should('have.attr', 'placeholder', l10n.checkOutInfoPage.postalCodePlaceholder);
     });
     it('CheckoutInfoPage: Then Cancel button should be visible', () => {
@@ -44,7 +43,7 @@ describe('CheckoutInfoPage: Given the "Checkout: Your information" page is open 
     it('CheckoutInfoPage: Then Continue button should be visible', () => {
       cy.get(checkOutInfoPage.continueButton).should('be.visible').and('have.value', l10n.checkOutInfoPage.continue);
     });
-    it('CartPage: Then Cart badge should display correct number', () => {
+    it('CheckoutInfoPage: Then Cart badge should display correct number', () => {
       cy.get(cartPage.cartBadge).should('contain', '1');
     });
   });
@@ -55,7 +54,7 @@ describe('CheckoutInfoPage: Given the "Checkout: Your information" page is open 
       cy.get(checkOutInfoPage.postalCodeInput).type(checkoutInfoPageTestData.validData.postalCode);
       cy.get(checkOutInfoPage.continueButton).click();
     });
-    it('CheckoutInfoPage: Then error message "First Name is required" should be displayed', () => {
+    it('CheckoutInfoPage: Then error message First Name is required should be displayed', () => {
       cy.get(checkOutInfoPage.errorMessage).should('have.text', l10n.errors.firstNameIsRequired);
     });
     after(() => {
@@ -69,7 +68,7 @@ describe('CheckoutInfoPage: Given the "Checkout: Your information" page is open 
       cy.get(checkOutInfoPage.lastNameInput).clear();
       cy.get(checkOutInfoPage.continueButton).click();
     });
-    it('CheckoutInfoPage: Then error message "Last Name is required" should be displayed', () => {
+    it('CheckoutInfoPage: Then error message Last Name is required should be displayed', () => {
       cy.get(checkOutInfoPage.errorMessage).should('have.text', l10n.errors.lastNameIsRequired);
     });
     after(() => {
@@ -83,7 +82,7 @@ describe('CheckoutInfoPage: Given the "Checkout: Your information" page is open 
       cy.get(checkOutInfoPage.lastNameInput).type(checkoutInfoPageTestData.validData.lastName);
       cy.get(checkOutInfoPage.continueButton).click();
     });
-    it('CheckoutInfoPage: Then error message "Postal Code is required" should be displayed', () => {
+    it('CheckoutInfoPage: Then error message Postal Code is required should be displayed', () => {
       cy.get(checkOutInfoPage.errorMessage).should('have.text', l10n.errors.postalCodeIsRequired);
     });
   });
@@ -92,8 +91,10 @@ describe('CheckoutInfoPage: Given the "Checkout: Your information" page is open 
     before(() => {
       cy.get(checkOutInfoPage.cancelButton).click();
     });
-    it('CheckoutInfoPage: Then user should be navigated back to the Cart page', () => {
+    it('CheckoutInfoPage: User should be navigated back to Cart page URL', () => {
       cy.url().should('eq', urls.cartPage);
+    });
+    it('CheckoutInfoPage: Cart page should have correct title', () => {
       cy.get(cartPage.cartTitle).should('have.text', l10n.cartPage.cartTitle);
     });
   });

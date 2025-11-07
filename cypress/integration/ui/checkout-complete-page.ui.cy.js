@@ -1,8 +1,7 @@
 import { checkoutCompletePageTestData } from '../../test-data/checkout-complete-page.test-data';
 
-describe('CheckoutCompletePage: Given the "Checkout: Complete!" page is open', { testIsolation: false }, () => {
+describe('CheckoutCompletePage: Given the Checkout Complete page is open', { testIsolation: false }, () => {
   let standardUser;
-
   before(() => {
     cy.getUserDataByRole(userRoles.STANDARD).then((user) => {
       standardUser = user;
@@ -37,9 +36,13 @@ describe('CheckoutCompletePage: Given the "Checkout: Complete!" page is open', {
     before(() => {
       cy.get(checkOutCompletePage.backHomeButton).click();
     });
-    it('CheckoutCompletePage: Then user should be navigated to Inventory page', () => {
+    it('CheckoutCompletePage: User should be navigated to Inventory page URL', () => {
       cy.url().should('eq', urls.inventoryPage);
+    });
+    it('CheckoutCompletePage: Inventory page should have correct title', () => {
       cy.get(inventoryPage.inventoryTitle).should('have.text', l10n.inventoryPage.inventoryTitle);
+    });
+    it('CheckoutCompletePage: Inventory container should be visible', () => {
       cy.get(inventoryPage.inventoryContainer).should('be.visible');
     });
   });

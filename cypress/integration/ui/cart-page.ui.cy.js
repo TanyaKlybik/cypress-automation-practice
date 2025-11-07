@@ -2,7 +2,6 @@ import { cartPageTestData } from '../../test-data/cart-page.test-data';
 
 describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
   let standardUser;
-
   before(() => {
     cy.getUserDataByRole(userRoles.STANDARD).then((user) => {
       standardUser = user;
@@ -23,7 +22,7 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
     it('CartPage: Then Cart icon should display', () => {
       cy.get(cartPage.cartIcon).should('be.visible');
     });
-    it('CartPage:Then QTY column header should display', () => {
+    it('CartPage: Then QTY column header should display', () => {
       cy.contains(l10n.cartPage.qty).should('be.visible');
     });
     it('CartPage: Then Description column header  should display', () => {
@@ -58,22 +57,22 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
       cy.get(menu.menuButton).click();
       cy.get(menu.allItems).click();
       cy.contains(inventoryPage.inventoryItemName, cartPageTestData.tshirt.name).parents(inventoryPage.inventoryItem).find(inventoryPage.addToCartButton).click();
+      cy.get(cartPage.cartIcon).click();
     });
     it('CartPage: Then user navigates to Cart Page', () => {
-      cy.get(cartPage.cartIcon).click();
       cy.url().should('eq', urls.cartPage);
     });
     it('CartPage: Then Cart should contain one item', () => {
       cy.get(inventoryPage.inventoryItem).should('have.length', 1);
     });
-    it('CartPage: Then the added item should match the added product', () => {
-      cy.get(inventoryPage.inventoryItem)
-        .first()
-        .within(() => {
-          cy.get(inventoryPage.inventoryItemName).should('have.text', cartPageTestData.tshirt.name);
-          cy.get(inventoryPage.inventoryItemDesc).should('have.text', cartPageTestData.tshirt.description);
-          cy.get(inventoryPage.inventoryItemPrice).should('have.text', cartPageTestData.tshirt.price);
-        });
+    it('CartPage: The added item should have the correct name', () => {
+      cy.get(inventoryPage.inventoryItem).first().find(inventoryPage.inventoryItemName).should('have.text', cartPageTestData.tshirt.name);
+    });
+    it('CartPage: The added item should have the correct description', () => {
+      cy.get(inventoryPage.inventoryItem).first().find(inventoryPage.inventoryItemDesc).should('have.text', cartPageTestData.tshirt.description);
+    });
+    it('CartPage: The added item should have the correct price', () => {
+      cy.get(inventoryPage.inventoryItem).first().find(inventoryPage.inventoryItemPrice).should('have.text', cartPageTestData.tshirt.price);
     });
     it('CartPage: Then Remove button should be visible for the item', () => {
       cy.get(inventoryPage.inventoryItem).first().find(inventoryPage.removeButton).should('be.visible').and('have.text', l10n.inventoryPage.remove);
@@ -84,8 +83,10 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
     before(() => {
       cy.get(cartPage.continueShoppingButton).click();
     });
-    it('CartPage: Then Continue Shopping button should navigate back to Inventory Page', () => {
+    it('CartPage: URL should include /inventory.html', () => {
       cy.url().should('include', '/inventory.html');
+    });
+    it('CartPage: Inventory container should be visible', () => {
       cy.get(inventoryPage.inventoryContainer).should('be.visible');
     });
   });
@@ -95,8 +96,10 @@ describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
       cy.get(cartPage.cartIcon).click();
       cy.get(cartPage.checkoutButton).click();
     });
-    it('CartPage: Then Checkout button should navigate to Checkout Your information page', () => {
+    it('CartPage: Checkout button should navigate to Checkout Your Information page URL', () => {
       cy.url().should('include', '/checkout-step-one.html');
+    });
+    it('CartPage: Checkout page should display the correct title', () => {
       cy.get(checkOutInfoPage.checkOutInfoTitle).should('have.text', l10n.checkOutInfoPage.checkOutInfoTitle);
     });
     after(() => {

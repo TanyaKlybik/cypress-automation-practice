@@ -1,8 +1,7 @@
 import { checkoutOverviewPageTestData } from '../../test-data/checkout-overview-page.test-data';
 
-describe('CheckoutOverviewPage: Given the "Checkout: Overview" page is open', { testIsolation: false }, () => {
+describe('CheckoutOverviewPage: Given the Checkout Overview page is open', { testIsolation: false }, () => {
   let standardUser;
-
   before(() => {
     cy.getUserDataByRole(userRoles.STANDARD).then((user) => {
       standardUser = user;
@@ -25,10 +24,14 @@ describe('CheckoutOverviewPage: Given the "Checkout: Overview" page is open', { 
     it('CheckoutOverviewPage: Then Overview title should be visible', () => {
       cy.get(checkOutOverviewPage.overviewTitle).should('contain.text', l10n.checkOutOverviewPage.overviewTitle);
     });
-    it('CheckoutOverviewPage: Then only 1 Cart item should be displayed with name and price', () => {
+    it('CheckoutOverviewPage: Only 1 cart item should be displayed', () => {
       cy.get(checkOutOverviewPage.itemContainer).should('have.length', 1);
       cy.get(checkOutOverviewPage.itemQuantity).should('have.length', 1);
+    });
+    it('CheckoutOverviewPage: Cart item name should be visible', () => {
       cy.get(checkOutOverviewPage.itemName).should('be.visible');
+    });
+    it('CheckoutOverviewPage: Cart item price should be visible', () => {
       cy.get(checkOutOverviewPage.itemPrice).should('be.visible');
     });
     it('CheckoutOverviewPage: Payment Information should be correct', () => {
@@ -83,8 +86,10 @@ describe('CheckoutOverviewPage: Given the "Checkout: Overview" page is open', { 
     before(() => {
       cy.get(checkOutOverviewPage.finishButton).click();
     });
-    it('CheckoutOverviewPage: Then User should be navigated to the Checkout Complete page', () => {
+    it('CheckoutOverviewPage: User should be navigated to the Checkout Complete page', () => {
       cy.url().should('eq', urls.checkoutCompletePage);
+    });
+    it('CheckoutCompletePage: Page should display the complete title', () => {
       cy.get(checkOutCompletePage.completeTitle).should('have.text', l10n.checkOutCompletePage.completeTitle);
     });
     after(() => {

@@ -1,6 +1,5 @@
 describe('LoginPage: Given login page is open', { testIsolation: false }, () => {
   let standardUser, lockedUser;
-
   before(() => {
     cy.getUserDataByRole(userRoles.STANDARD).then((user) => {
       standardUser = user;
@@ -30,7 +29,6 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
     before(() => {
       cy.get(loginPage.loginButton).click();
     });
-
     it('LoginPage: Then login with empty username and password shows error message', () => {
       cy.get(loginPage.errorMessage).should('be.visible').and('have.text', l10n.errors.usernameIsRequired);
     });
@@ -151,8 +149,10 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
       cy.loginPage_FillLoginForm(standardUser);
       cy.get(loginPage.loginButton).click();
     });
-    it('LoginPage: Then user is redirected to the inventory page', () => {
+    it('LoginPage: Then user is redirected to the inventory page URL', () => {
       cy.url().should('eq', urls.inventoryPage);
+    });
+    it('LoginPage: Then the inventory page title is visible and correct', () => {
       cy.get(inventoryPage.inventoryTitle).should('have.text', l10n.inventoryPage.inventoryTitle).and('be.visible');
     });
   });
@@ -162,8 +162,10 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
       cy.get(menu.menuButton).click();
       cy.get(menu.logoutButton).click();
     });
-    it('LoginPage: Then user can log out successfully', () => {
+    it('LoginPage: Then user is redirected to the login page URL after logout', () => {
       cy.url().should('eq', urls.baseUrl);
+    });
+    it('LoginPage: Then the login button is visible after logout', () => {
       cy.get(loginPage.loginButton).should('be.visible');
     });
   });
@@ -172,9 +174,13 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
     before(() => {
       cy.go('back');
     });
-    it('Then user stays on login page after pressing back in the browser', () => {
+    it('LoginPage: Then user stays on login page URL after pressing back in the browser', () => {
       cy.url().should('eq', urls.baseUrl);
+    });
+    it('LoginPage: Then the login button is visible after pressing back in the browser', () => {
       cy.get(loginPage.loginButton).should('be.visible');
+    });
+    it('LoginPage: Then the restricted page error message is displayed', () => {
       cy.get(loginPage.errorMessage).should('be.visible').and('have.text', l10n.errors.restrictedPageOpened);
     });
   });
@@ -199,9 +205,13 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
       cy.loginPage_FillLoginForm(lockedUser);
       cy.get(loginPage.loginButton).click();
     });
-    it('LoginPage: Then user sees error that account is locked', () => {
+    it('LoginPage: Then error message is visible for locked account', () => {
       cy.get(loginPage.errorMessage).should('be.visible').and('have.text', l10n.errors.userIsLockedOut);
+    });
+    it('LoginPage: Then URL remains on the login page', () => {
       cy.url().should('eq', urls.baseUrl);
+    });
+    it('LoginPage: Then login button is still visible', () => {
       cy.get(loginPage.loginButton).should('be.visible');
     });
   });
