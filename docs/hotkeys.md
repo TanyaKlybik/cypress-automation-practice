@@ -15,3 +15,7 @@
 - **Alt+Right Arrow**: Navigate Forward.
 - **Ctrl+Alt+Shift+J**: Multi-cursor for all selected occurrences.
 - **Ctrl+C**: Switch keyboard layout to English in Aqua if you accidentally started typing in Russian to prevent strange symbols.
+- **Shift+Tab**: Move selected lines one indentation level left in JetBrains IDE to quickly fix over-indented code.
+- **Ctrl+R**: Open the Replace dialog to find and replace words within the current file.
+- **Ctrl+Alt+R**: Replace all occurrences of the found word in the current file at once.
+- **Ctrl+Shift+R**: Open Replace in Files to find and replace words across multiple files or the entire project.

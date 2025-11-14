@@ -10,12 +10,49 @@
     "passwordIsRequired": "Epic sadface: Password is required",
     "userIsLockedOut": "Epic sadface: Sorry, this user has been locked out.",
     "restrictedPageOpened": "Epic sadface: You can only access '/inventory.html' when you are logged in.",
-    "notFound": "Epic sadface: Username and password do not match any user in this service"
+    "notFound": "Epic sadface: Username and password do not match any user in this service",
+    "firstNameIsRequired": "Error: First Name is required",
+    "lastNameIsRequired": "Error: Last Name is required",
+    "postalCodeIsRequired": "Error: Postal Code is required",
+    "overviewLoadFailed": "Error: Overview page failed to load"
   },
   "inventoryPage": {
-    "inventoryTitle": "Products"
+    "inventoryTitle": "Products",
+    "addToCart": "Add to cart",
+    "remove": "Remove"
   },
   "cartPage": {
-    "cartTitle": "Your Cart"
+    "cartTitle": "Your Cart",
+    "qty": "QTY",
+    "description": "Description",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Checkout"
+  },
+  "checkOutInfoPage": {
+    "checkOutInfoTitle": "Checkout: Your Information",
+    "firstNamePlaceholder": "First Name",
+    "lastNamePlaceholder": "Last Name",
+    "postalCodePlaceholder": "Zip/Postal Code",
+    "cancel": "Cancel",
+    "continue": "Continue"
+  },
+  "checkOutOverviewPage": {
+    "overviewTitle": "Checkout: Overview",
+    "finishButton": "Finish",
+    "cancelButton": "Cancel",
+    "summarySubtotalLabel": "Item total",
+    "summaryTaxLabel": "Tax",
+    "summaryTotalLabel": "Total",
+    "summaryInfoLabel": "Price Total",
+    "paymentInfoLabel": "Payment Information:",
+    "paymentInfoValue": "SauceCard #31337",
+    "shippingInfoLabel": "Shipping Information:",
+    "shippingInfoValue": "Free Pony Express Delivery!"
+  },
+  "checkOutCompletePage": {
+    "completeTitle": "Checkout: Complete!",
+    "completeHeader": "Thank you for your order!",
+    "completeText": "Your order has been dispatched, and will arrive just as fast as the pony can get there!",
+    "backHomeButton": "Back Home"
   }
 }

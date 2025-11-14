@@ -5,7 +5,6 @@
 1. **Naming Conventions**: Follow the established naming conventions.
 
 2. **Test Independence**:
-
    - Define all use cases to be covered, even if not yet implemented, to create live documentation.
    - Structure use cases properly within files and ensure they are connected (dependent). Use cases from different files should not overlap.
    - Test scenarios (files) should be independent of each other.
@@ -15,7 +14,6 @@
 3. **Do Not Automate Manual Test Cases**: Avoid directly replicating manual test cases. Focus on identifying and implementing the most valuable specifications.
 
 4. **Test Structure**:
-
    - **`it` Block**: Specifies the expected result and contains only verification steps. Use detailed descriptions to make requirements unique. Avoid generic descriptions like "Should return 401 Unauthorized error." Instead, include specific details like error messages. Use a single check per `it` block.
    - **`context` Block**: Outlines conditions and includes steps common to `it` blocks, grouping them logically.
    - **`describe` Block**: Defines the functionality under test and optimized scenarios for use cases.

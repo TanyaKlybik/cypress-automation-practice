@@ -1,6 +1,5 @@
 describe('LoginPage: Given login page is open', { testIsolation: false }, () => {
   let standardUser, lockedUser;
-
   before(() => {
     cy.getUserDataByRole(userRoles.STANDARD).then((user) => {
       standardUser = user;
@@ -30,9 +29,8 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
     before(() => {
       cy.get(loginPage.loginButton).click();
     });
-
     it('LoginPage: Then login with empty username and password shows error message', () => {
-      cy.get(loginPage.errorMessage).should('be.visible').and('contain.text', l10n.errors.usernameIsRequired);
+      cy.get(loginPage.errorMessage).should('be.visible').and('have.text', l10n.errors.usernameIsRequired);
     });
     it('LoginPage: Then warning message has a red background', () => {
       cy.get(loginPage.error).should('have.css', 'background-color', colours.ERROR);
@@ -59,12 +57,10 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
   context('LoginPage: When user fills in only username field ', () => {
     before(() => {
       cy.get(loginPage.usernameInput).type('secret');
-      cy.then(() => {
-        cy.get(loginPage.loginButton).click();
-      });
+      cy.get(loginPage.loginButton).click();
     });
     it('LoginPage: Then error message appears because only username field is filled in', () => {
-      cy.get(loginPage.errorMessage).should('be.visible').and('contain.text', l10n.errors.passwordIsRequired);
+      cy.get(loginPage.errorMessage).should('be.visible').and('have.text', l10n.errors.passwordIsRequired);
     });
     it('LoginPage: Then warning message has a red background', () => {
       cy.get(loginPage.error).should('have.css', 'background-color', colours.ERROR);
@@ -88,12 +84,10 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
   context('LoginPage: When user fills in only password field ', () => {
     before(() => {
       cy.get(loginPage.passwordInput).type('secret');
-      cy.then(() => {
-        cy.get(loginPage.loginButton).click();
-      });
+      cy.get(loginPage.loginButton).click();
     });
     it('LoginPage: Then error message appears because only password field is filled in', () => {
-      cy.get(loginPage.errorMessage).should('be.visible').and('contain.text', l10n.errors.usernameIsRequired);
+      cy.get(loginPage.errorMessage).should('be.visible').and('have.text', l10n.errors.usernameIsRequired);
     });
     it('LoginPage: Then warning message has a red background', () => {
       cy.get(loginPage.error).should('have.css', 'background-color', colours.ERROR);
@@ -118,12 +112,10 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
     before(() => {
       cy.get(loginPage.usernameInput).type('wrong_user');
       cy.get(loginPage.passwordInput).type(standardUser.password);
-      cy.then(() => {
-        cy.get(loginPage.loginButton).click();
-      });
+      cy.get(loginPage.loginButton).click();
     });
     it('LoginPage: Then login with wrong username shows error message', () => {
-      cy.get(loginPage.errorMessage).should('be.visible').and('contain.text', l10n.errors.notFound);
+      cy.get(loginPage.errorMessage).should('be.visible').and('have.text', l10n.errors.notFound);
     });
     it('LoginPage: Then warning message has a red background', () => {
       cy.get(loginPage.error).should('have.css', 'background-color', colours.ERROR);
@@ -138,12 +130,10 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
     before(() => {
       cy.get(loginPage.usernameInput).type(standardUser.username);
       cy.get(loginPage.passwordInput).type('wrong_password');
-      cy.then(() => {
-        cy.get(loginPage.loginButton).click();
-      });
+      cy.get(loginPage.loginButton).click();
     });
     it('LoginPage: Then login with wrong password shows error message', () => {
-      cy.get(loginPage.errorMessage).should('be.visible').and('contain.text', l10n.errors.notFound);
+      cy.get(loginPage.errorMessage).should('be.visible').and('have.text', l10n.errors.notFound);
     });
     it('LoginPage: Then warning message has a red background', () => {
       cy.get(loginPage.error).should('have.css', 'background-color', colours.ERROR);
@@ -157,22 +147,25 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
   context('LoginPage.STANDARD: When user logs in with valid credentials', () => {
     before(() => {
       cy.loginPage_FillLoginForm(standardUser);
-      cy.then(() => {
-        cy.get(loginPage.loginButton).click();
-      });
+      cy.get(loginPage.loginButton).click();
     });
-    it('LoginPage: Then user is redirected to the inventory page', () => {
+    it('LoginPage: Then user is redirected to the inventory page URL', () => {
       cy.url().should('eq', urls.inventoryPage);
+    });
+    it('LoginPage: Then the inventory page title is visible and correct', () => {
       cy.get(inventoryPage.inventoryTitle).should('have.text', l10n.inventoryPage.inventoryTitle).and('be.visible');
     });
   });
 
   context('LoginPage.STANDARD: When user logs out', () => {
     before(() => {
-      cy.logout();
+      cy.get(menu.menuButton).click();
+      cy.get(menu.logoutButton).click();
     });
-    it('LoginPage: Then user can log out successfully', () => {
+    it('LoginPage: Then user is redirected to the login page URL after logout', () => {
       cy.url().should('eq', urls.baseUrl);
+    });
+    it('LoginPage: Then the login button is visible after logout', () => {
       cy.get(loginPage.loginButton).should('be.visible');
     });
   });
@@ -181,10 +174,14 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
     before(() => {
       cy.go('back');
     });
-    it('Then user stays on login page after pressing back in the browser', () => {
+    it('LoginPage: Then user stays on login page URL after pressing back in the browser', () => {
       cy.url().should('eq', urls.baseUrl);
+    });
+    it('LoginPage: Then the login button is visible after pressing back in the browser', () => {
       cy.get(loginPage.loginButton).should('be.visible');
-      cy.get(loginPage.errorMessage).should('be.visible').and('contain.text', l10n.errors.restrictedPageOpened);
+    });
+    it('LoginPage: Then the restricted page error message is displayed', () => {
+      cy.get(loginPage.errorMessage).should('be.visible').and('have.text', l10n.errors.restrictedPageOpened);
     });
   });
 
@@ -196,7 +193,7 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
       cy.url().should('eq', urls.baseUrl);
     });
     it('LoginPage: Then error message appears', () => {
-      cy.get(loginPage.errorMessage).should('be.visible').and('contain.text', l10n.errors.restrictedPageOpened);
+      cy.get(loginPage.errorMessage).should('be.visible').and('have.text', l10n.errors.restrictedPageOpened);
     });
     it('LoginPage: Then warning message has a red background', () => {
       cy.get(loginPage.error).should('have.css', 'background-color', colours.ERROR);
@@ -206,13 +203,15 @@ describe('LoginPage: Given login page is open', { testIsolation: false }, () => 
   context('LoginPage.LOCKED: When locked user tries to login', () => {
     before(() => {
       cy.loginPage_FillLoginForm(lockedUser);
-      cy.then(() => {
-        cy.get(loginPage.loginButton).click();
-      });
+      cy.get(loginPage.loginButton).click();
     });
-    it('LoginPage: Then user sees error that account is locked', () => {
-      cy.get(loginPage.errorMessage).should('be.visible').and('contain.text', l10n.errors.userIsLockedOut);
+    it('LoginPage: Then error message is visible for locked account', () => {
+      cy.get(loginPage.errorMessage).should('be.visible').and('have.text', l10n.errors.userIsLockedOut);
+    });
+    it('LoginPage: Then URL remains on the login page', () => {
       cy.url().should('eq', urls.baseUrl);
+    });
+    it('LoginPage: Then login button is still visible', () => {
       cy.get(loginPage.loginButton).should('be.visible');
     });
   });

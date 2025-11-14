@@ -3,18 +3,15 @@
 ## Branching Strategy: Main & Feature Branches
 
 1. **Main Branch**:
-
    - `main` is the stable branch, always containing the latest working version.
    - All releases are made from `main`.
    - `main` is protected — **direct commits are not allowed**. All changes must go through a Pull Request (PR).
 
 2. **Feature Branches**:
-
    - Create a new branch for each task from `main`.
    - Use descriptive names, e.g., `feature/user-login`.
 
 3. **Workflow**:
-
    - **Step 1**: Update `main`:
 
      ```bash
@@ -37,7 +34,6 @@
      ```
 
    - **Step 4**: Create a Pull Request:
-
      - After pushing the feature branch, open a PR to merge it into `main`.
      - Provide a clear description of the changes.
      - At least **1 approval** is required before merging.

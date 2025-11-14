@@ -50,31 +50,53 @@ Cypress.Commands.add('loginPage_FillLoginForm', (user) => {
   cy.get(loginPage.passwordInput).type(password, { log: false, delay: 0 });
 });
 
-Cypress.Commands.add('logout', () => {
+Cypress.Commands.add('resetAppState', () => {
+  //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/11
   cy.get(menu.menuButton).click();
-  cy.then(() => {
-    cy.get(menu.logoutButton).click();
-  });
+  cy.get(menu.resetAppState).click();
+  cy.get(menu.closeButton).click();
+  cy.reload();
 });
 
-Cypress.Commands.add('shouldBeSorted', (itemsSelector, fieldSelector) => {
-  cy.get(itemsSelector)
-    .find(fieldSelector)
-    .then(($els) => {
-      const names = Cypress._.map($els, 'innerText');
-      const sorted = [...names].sort((a, b) => a.localeCompare(b));
+Cypress.Commands.add('shouldHavePriceFormat', { prevSubject: true }, (subject) => {
+  cy.wrap(subject)
+    .should('be.visible')
+    .invoke('text')
+    .should('match', /\$\d+\.\d{2}/);
+});
+
+Cypress.Commands.add('shouldHaveValidImages', { prevSubject: true }, (subject) => {
+  cy.wrap(subject)
+    .find('img')
+    .should('be.visible')
+    .and(($imgs) => {
+      $imgs.each((_, img) => expect(img.naturalWidth).to.be.greaterThan(0));
+    });
+});
+
+Cypress.Commands.add('shouldBeSortedByName', { prevSubject: true }, (subject, order = 'asc') => {
+  cy.wrap(subject)
+    .then(($els) => Cypress._.map($els, 'innerText'))
+    .then((names) => {
+      const sorted = [...names].sort((a, b) => (order === 'asc' ? a.localeCompare(b) : b.localeCompare(a)));
       expect(names).to.deep.equal(sorted);
     });
 });
 
-Cypress.Commands.add('getCartCount', () => {
-  return cy.get('body').then(($body) => {
-    if ($body.find(cartPage.cartBadge).length) {
-      return cy
-        .get(cartPage.cartBadge)
-        .invoke('text')
-        .then((text) => parseInt(text, 10));
-    }
-    return 0;
-  });
+Cypress.Commands.add('shouldBeSortedByPrice', { prevSubject: true }, (subject, order = 'asc') => {
+  cy.wrap(subject)
+    .then(($els) => Cypress._.map($els, (el) => parseFloat(el.innerText.replace('$', ''))))
+    .then((prices) => {
+      const sorted = [...prices].sort((a, b) => (order === 'asc' ? a - b : b - a));
+      expect(prices).to.deep.equal(sorted);
+    });
+});
+
+Cypress.Commands.add('checkoutInfo_FillFormAndContinue', (user) => {
+  const { firstName, lastName, postalCode } = user;
+  cy.get(checkOutInfoPage.firstNameInput).clear().type(firstName);
+  cy.get(checkOutInfoPage.lastNameInput).clear().type(lastName);
+  cy.get(checkOutInfoPage.postalCodeInput).clear().type(postalCode);
+  cy.get(checkOutInfoPage.continueButton).click();
+  cy.url().should('eq', urls.checkoutOverviewPage);
 });
