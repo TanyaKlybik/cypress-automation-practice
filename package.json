@@ -1,7 +1,7 @@
 {
   "name": "cypress-automation-practice",
   "version": "1.0.0",
-  "description": "Test automation framework based on Cypress (saucedemo.com)",
+  "description": "Test automation framework based on Cypress (saucedemo.com and restful-booker.herokuapp.com)",
   "main": "index.js",
   "scripts": {
     "test": "npm run cy:run",
