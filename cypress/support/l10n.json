@@ -54,5 +54,20 @@
     "completeHeader": "Thank you for your order!",
     "completeText": "Your order has been dispatched, and will arrive just as fast as the pony can get there!",
     "backHomeButton": "Back Home"
+  },
+  "apiBooking": {
+    "errors": {
+      "firstnameIsRequired": "Firstname is required",
+      "lastnameIsRequired": "Lastname is required",
+      "totalpriceIsRequired": "Total price is required",
+      "depositpaidIsRequired": "Deposit paid is required",
+      "bookingdatesIsRequired": "Booking dates are required",
+      "checkinIsRequired": "Check-in date is required",
+      "checkoutIsRequired": "Check-out date is required",
+      "checkinAfterCheckout": "Check-in date cannot be later than check-out date",
+      "checkinInPast": "Check-in date cannot be in the past",
+      "invalidDateFormat": "Date format is invalid. Expected format: YYYY-MM-DD",
+      "internalServerError": "Internal Server Error"
+    }
   }
 }

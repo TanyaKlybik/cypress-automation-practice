@@ -18,12 +18,15 @@ Cypress.Commands.add('getToken', () => {
     });
 });
 
-Cypress.Commands.add('createBooking', (bookingData) => {
-  return cy.request({
+Cypress.Commands.add('createBooking', (bookingData, options = {}) => {
+  const requestOptions = {
     method: 'POST',
     url: urls.apiBooking,
     body: bookingData,
-  });
+    ...options,
+  };
+  cy.log('createBooking requestOptions:', JSON.stringify(requestOptions));
+  return cy.request(requestOptions);
 });
 
 Cypress.Commands.add('getAllBookings', () => {
@@ -37,6 +40,15 @@ Cypress.Commands.add('getBookingById', (bookingId) => {
   return cy.request({
     method: 'GET',
     url: urls.apiBookingById(bookingId),
+  });
+});
+
+Cypress.Commands.add('getBookingsByFilter', (filter) => {
+  return cy.request({
+    method: 'GET',
+    url: urls.apiBooking,
+    qs: filter,
+    failOnStatusCode: false,
   });
 });
 
