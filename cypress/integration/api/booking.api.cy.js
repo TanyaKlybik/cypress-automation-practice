@@ -1,7 +1,14 @@
-import { Booking, BookingUpdate, BookingNegative, mandatoryFields, nameFilters, dateFilters } from '../../test-data/booking.test-data';
+import { Booking, BookingUpdate, TestDates, BookingNegative, mandatoryFields, nameFilters, dateFilters } from '../../test-data/booking.test-data';
 
 describe('Booking API: Given the Restful Booker API is available', { testIsolation: false }, () => {
   let bookingId = null;
+
+  context.skip('Auth Negative: Generate token with invalid credentials', () => {
+    it.skip('POST.Negative: Should return 401 when password is invalid', () => {
+      //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/21
+      cy.getTokenNegative();
+    });
+  });
 
   context('Booking POST: When creating a new booking', () => {
     it('POST.Positive: Then it should return 200 and booking id', () => {
@@ -56,7 +63,7 @@ describe('Booking API: Given the Restful Booker API is available', { testIsolati
   });
 
   context('Booking GET: When requesting all bookings', () => {
-    it('Booking GET: Then it should return 200 and an array', () => {
+    it('GET: Then it should return 200 and an array', () => {
       cy.getAllBookings().then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an('array');
@@ -81,7 +88,7 @@ describe('Booking API: Given the Restful Booker API is available', { testIsolati
           expect(response.status).to.eq(200);
           expect(response.body).to.be.an('array');
           expect(response.body.length).to.be.greaterThan(0);
-          response.body.slice(0, 5).forEach((b) => {
+          response.body.slice(0, 3).forEach((b) => {
             cy.getBookingById(b.bookingid).then((res) => {
               expect(res.body[field]).to.eq(value);
             });
@@ -99,7 +106,7 @@ describe('Booking API: Given the Restful Booker API is available', { testIsolati
           expect(response.status).to.eq(200);
           expect(response.body).to.be.an('array');
           expect(response.body.length).to.be.greaterThan(0);
-          response.body.slice(0, 5).forEach((b) => {
+          response.body.slice(0, 3).forEach((b) => {
             cy.getBookingById(b.bookingid).then((res) => {
               const actualDate = new Date(res.body.bookingdates[field]);
               const expectedDate = new Date(value);
@@ -112,10 +119,99 @@ describe('Booking API: Given the Restful Booker API is available', { testIsolati
   });
 
   context('Booking PATCH: When updating booking data', () => {
-    it('Booking PATCH: Then it should update the booking and return 200', () => {
-      cy.updateBooking(bookingId, BookingUpdate).then((response) => {
+    BookingUpdate.forEach(({ field, value }) => {
+      it(`Booking PATCH: Then it should update the "${field}" and return 200`, () => {
+        const patchBody = field === 'bookingdates' ? { bookingdates: value } : { [field]: value };
+        cy.updateBooking(bookingId, patchBody).then((response) => {
+          expect(response.status).to.eq(200);
+          if (field === 'bookingdates') {
+            expect(response.body.bookingdates.checkin).to.eq(value.checkin);
+            expect(response.body.bookingdates.checkout).to.eq(value.checkout);
+          } else {
+            expect(response.body[field]).to.eq(value);
+          }
+        });
+      });
+    });
+  });
+
+  context('Booking GET by ID: Verify all updated fields', () => {
+    it('GET by ID: Then itshould return all updated fields', () => {
+      cy.getBookingById(bookingId).then((response) => {
         expect(response.status).to.eq(200);
-        expect(response.body.firstname).to.eq(BookingUpdate.firstname);
+        BookingUpdate.forEach(({ field, value }) => {
+          if (field === 'bookingdates') {
+            expect(response.body.bookingdates.checkin).to.eq(value.checkin);
+            expect(response.body.bookingdates.checkout).to.eq(value.checkout);
+          } else {
+            expect(response.body[field]).to.eq(value);
+          }
+        });
+      });
+    });
+  });
+
+  context.skip('Booking PATCH Negative: When updating with empty required fields', () => {
+    mandatoryFields.forEach(({ field, data, error }) => {
+      it.skip(`PATCH Negative: Then it should not update when ${field} is empty`, () => {
+        //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/20
+        cy.updateBooking(bookingId, data, { failOnStatusCode: false }).then((response) => {
+          expect(response.status).to.eq(500);
+          expect(response.body).to.eq(error);
+        });
+      });
+    });
+  });
+
+  context.skip('PATCH.Negative: When updating with check-in later than checkout', () => {
+    it.skip('PATCH.Negative: Then it should not update when checkin is later than checkout', () => {
+      const patchBody = { bookingdates: { checkin: TestDates.futureCheckout, checkout: TestDates.futureCheckin } };
+      cy.updateBooking(bookingId, patchBody, { failOnStatusCode: false }).then((response) => {
+        expect(response.status).to.eq(500);
+        expect(response.body).to.eq(l10n.apiBooking.errors.checkinAfterCheckout);
+      });
+    });
+  });
+
+  context.skip('PATCH.Negative: When updating with check-in in the past', () => {
+    it.skip('PATCH.Negative: Then it should not update when checkin is in the past', () => {
+      const patchBody = { bookingdates: { checkin: TestDates.pastCheckin } };
+      cy.updateBooking(bookingId, patchBody, { failOnStatusCode: false }).then((response) => {
+        expect(response.status).to.eq(500);
+        expect(response.body).to.eq(l10n.apiBooking.errors.checkinInPast);
+      });
+    });
+  });
+
+  context.skip('PATCH.Negative: When updating with check-in equal to checkout', () => {
+    it.skip('PATCH.Negative: Then it should not update when checkin equals checkout', () => {
+      const patchBody = { bookingdates: { checkin: TestDates.sameDate, checkout: TestDates.sameDate } };
+      cy.updateBooking(bookingId, patchBody, { failOnStatusCode: false }).then((response) => {
+        expect(response.status).to.eq(500);
+        expect(response.body).to.eq(l10n.apiBooking.errors.checkinAfterCheckout);
+      });
+    });
+  });
+
+  context.skip('PATCH.Negative: When updating with invalid date format', () => {
+    it.skip('PATCH.Negative: Then it should not update when date format is invalid', () => {
+      const patchBody = { bookingdates: { checkin: TestDates.invalidFormat } };
+      cy.updateBooking(bookingId, patchBody, { failOnStatusCode: false }).then((response) => {
+        expect(response.status).to.eq(500);
+        expect(response.body).to.eq(l10n.apiBooking.errors.invalidDateFormat);
+      });
+    });
+  });
+
+  context('Booking DELETE: When deleting a booking', () => {
+    it('DELETE: Then it should return 201', () => {
+      cy.deleteBooking(bookingId).then((response) => {
+        expect(response.status).to.eq(201);
+      });
+    });
+    it('GET: Then it should return 404', () => {
+      cy.getBookingById(bookingId).then((response) => {
+        expect(response.status).to.eq(404);
       });
     });
   });

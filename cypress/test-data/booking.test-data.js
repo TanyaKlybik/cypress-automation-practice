@@ -4,14 +4,30 @@ export const Booking = {
   totalprice: 120,
   depositpaid: true,
   bookingdates: {
-    checkin: '2025-01-01',
-    checkout: '2025-01-10',
+    checkin: '2027-01-01',
+    checkout: '2027-01-10',
   },
   additionalneeds: 'Breakfast',
 };
 
-export const BookingUpdate = {
-  firstname: 'Johnny',
+export const BookingUpdate = [
+  { field: 'firstname', value: 'Mark' },
+  { field: 'lastname', value: 'Claire' },
+  { field: 'totalprice', value: 555 },
+  { field: 'depositpaid', value: false },
+  {
+    field: 'bookingdates',
+    value: { checkin: '2030-01-01', checkout: '2030-01-10' },
+  },
+  { field: 'additionalneeds', value: 'Late Checkout' },
+];
+
+export const TestDates = {
+  futureCheckin: '2030-01-01',
+  futureCheckout: '2030-01-10',
+  pastCheckin: '2010-01-01',
+  sameDate: '2030-01-01',
+  invalidFormat: '01/01/2030',
 };
 
 export const BookingNegative = {

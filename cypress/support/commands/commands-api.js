@@ -1,7 +1,7 @@
 Cypress.Commands.add('getToken', () => {
   const apiAuth = Cypress.env('apiAuth');
   if (!apiAuth) {
-    throw new Error('❌ apiAuth is missing! Check sensitive-data/api-auth.json');
+    throw new Error('apiAuth is missing! Check sensitive-data/api-auth.json');
   }
   const admin = apiAuth.ApiAdmin;
   return cy
@@ -15,6 +15,28 @@ Cypress.Commands.add('getToken', () => {
     })
     .then((response) => {
       return response.body.token;
+    });
+});
+
+Cypress.Commands.add('getTokenNegative', () => {
+  const apiAuth = Cypress.env('apiAuth');
+  if (!apiAuth) {
+    throw new Error('apiAuth is missing! Check sensitive-data/api-auth.json');
+  }
+  const admin = apiAuth.ApiAdmin;
+  return cy
+    .request({
+      method: 'POST',
+      url: urls.apiAuth,
+      body: {
+        username: admin.username,
+        password: admin.wrongPassword,
+      },
+      failOnStatusCode: false,
+    })
+    .then((response) => {
+      expect(response.status).to.eq(401);
+      return response;
     });
 });
 
@@ -40,6 +62,7 @@ Cypress.Commands.add('getBookingById', (bookingId) => {
   return cy.request({
     method: 'GET',
     url: urls.apiBookingById(bookingId),
+    failOnStatusCode: false,
   });
 });
 
@@ -73,4 +96,17 @@ Cypress.Commands.add('updateBooking', (bookingId, updateData) => {
         body: updateData,
       });
     });
+});
+
+Cypress.Commands.add('deleteBooking', (bookingId) => {
+  return cy.getToken().then((token) => {
+    return cy.request({
+      method: 'DELETE',
+      url: urls.apiBookingById(bookingId),
+      headers: {
+        Cookie: `token=${token}`,
+      },
+      failOnStatusCode: false,
+    });
+  });
 });
