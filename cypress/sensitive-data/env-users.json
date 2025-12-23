@@ -22,5 +22,10 @@
   "VisualUser": {
     "username": "visual_user",
     "password": "secret_sauce"
+  },
+  "ApiAdmin": {
+    "username": "admin",
+    "password": "password123",
+    "wrongPassword": "wrongPassword123"
   }
 }

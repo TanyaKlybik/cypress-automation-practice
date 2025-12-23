@@ -1,6 +1,6 @@
-describe('GET ping: Given the API is available', () => {
-  context('GET ping: When sending GET request to /ping endpoint', () => {
-    it('GET ping: Then it should return 201 status code', () => {
+describe('RestfulBooker.GET.ping: Given the API is available', () => {
+  context('RestfulBooker.GET.ping: When sending GET request to /ping endpoint', () => {
+    it('RestfulBooker.GET.ping: Then it should return 201 status code', () => {
       cy.request({
         method: 'GET',
         url: urls.apiPing,

@@ -1,4 +1,4 @@
-export const Booking = {
+export const RestfulBooking = {
   firstname: 'John',
   lastname: 'Doe',
   totalprice: 120,
@@ -10,7 +10,7 @@ export const Booking = {
   additionalneeds: 'Breakfast',
 };
 
-export const BookingUpdate = [
+export const RestfulBookingUpdate = [
   { field: 'firstname', value: 'Mark' },
   { field: 'lastname', value: 'Claire' },
   { field: 'totalprice', value: 555 },
@@ -22,7 +22,7 @@ export const BookingUpdate = [
   { field: 'additionalneeds', value: 'Late Checkout' },
 ];
 
-export const TestDates = {
+export const RestfulTestDates = {
   futureCheckin: '2030-01-01',
   futureCheckout: '2030-01-10',
   pastCheckin: '2010-01-01',
@@ -30,36 +30,36 @@ export const TestDates = {
   invalidFormat: '01/01/2030',
 };
 
-export const BookingNegative = {
-  EmptyFirstname: { ...Booking, firstname: '' },
-  EmptyLastname: { ...Booking, lastname: '' },
-  EmptyTotalPrice: { ...Booking, totalprice: null },
-  EmptyDepositPaid: { ...Booking, depositpaid: null },
-  EmptyCheckin: { ...Booking, bookingdates: { checkin: '', checkout: Booking.bookingdates.checkout } },
-  EmptyCheckout: { ...Booking, bookingdates: { checkin: Booking.bookingdates.checkin, checkout: '' } },
-  InvalidPriceType: { ...Booking, totalprice: 'abc' },
-  InvalidDepositType: { ...Booking, depositpaid: 'true' },
-  CheckinAfterCheckout: { ...Booking, bookingdates: { checkin: '2025-12-10', checkout: '2025-12-01' } },
-  CheckinEqualCheckout: { ...Booking, bookingdates: { checkin: '2025-12-01', checkout: '2025-12-01' } },
-  CheckinInPast: { ...Booking, bookingdates: { checkin: '1999-01-01', checkout: '2025-12-01' } },
-  InvalidDateFormat: { ...Booking, bookingdates: { checkin: '01/01/2025', checkout: '01/05/2025' } },
+export const RestfulBookingNegative = {
+  EmptyFirstname: { ...RestfulBooking, firstname: '' },
+  EmptyLastname: { ...RestfulBooking, lastname: '' },
+  EmptyTotalPrice: { ...RestfulBooking, totalprice: null },
+  EmptyDepositPaid: { ...RestfulBooking, depositpaid: null },
+  EmptyCheckin: { ...RestfulBooking, bookingdates: { checkin: '', checkout: RestfulBooking.bookingdates.checkout } },
+  EmptyCheckout: { ...RestfulBooking, bookingdates: { checkin: RestfulBooking.bookingdates.checkin, checkout: '' } },
+  InvalidPriceType: { ...RestfulBooking, totalprice: 'abc' },
+  InvalidDepositType: { ...RestfulBooking, depositpaid: 'true' },
+  CheckinAfterCheckout: { ...RestfulBooking, bookingdates: { checkin: '2025-12-10', checkout: '2025-12-01' } },
+  CheckinEqualCheckout: { ...RestfulBooking, bookingdates: { checkin: '2025-12-01', checkout: '2025-12-01' } },
+  CheckinInPast: { ...RestfulBooking, bookingdates: { checkin: '1999-01-01', checkout: '2025-12-01' } },
+  InvalidDateFormat: { ...RestfulBooking, bookingdates: { checkin: '01/01/2025', checkout: '01/05/2025' } },
 };
 
-export const mandatoryFields = [
-  { field: 'firstname', data: BookingNegative.EmptyFirstname, error: l10n.apiBooking.errors.firstnameIsRequired },
-  { field: 'lastname', data: BookingNegative.EmptyLastname, error: l10n.apiBooking.errors.lastnameIsRequired },
-  { field: 'totalprice', data: BookingNegative.EmptyTotalPrice, error: l10n.apiBooking.errors.totalpriceIsRequired },
-  { field: 'depositpaid', data: BookingNegative.EmptyDepositPaid, error: l10n.apiBooking.errors.depositpaidIsRequired },
-  { field: 'checkin', data: BookingNegative.EmptyCheckin, error: l10n.apiBooking.errors.checkinIsRequired },
-  { field: 'checkout', data: BookingNegative.EmptyCheckout, error: l10n.apiBooking.errors.checkoutIsRequired },
+export const RestfulMandatoryFields = [
+  { field: 'firstname', data: RestfulBookingNegative.EmptyFirstname, error: l10n.apiRestfulBooking.errors.firstnameIsRequired },
+  { field: 'lastname', data: RestfulBookingNegative.EmptyLastname, error: l10n.apiRestfulBooking.errors.lastnameIsRequired },
+  { field: 'totalprice', data: RestfulBookingNegative.EmptyTotalPrice, error: l10n.apiRestfulBooking.errors.totalpriceIsRequired },
+  { field: 'depositpaid', data: RestfulBookingNegative.EmptyDepositPaid, error: l10n.apiRestfulBooking.errors.depositpaidIsRequired },
+  { field: 'checkin', data: RestfulBookingNegative.EmptyCheckin, error: l10n.apiRestfulBooking.errors.checkinIsRequired },
+  { field: 'checkout', data: RestfulBookingNegative.EmptyCheckout, error: l10n.apiRestfulBooking.errors.checkoutIsRequired },
 ];
 
-export const nameFilters = [
-  { field: 'firstname', value: Booking.firstname },
-  { field: 'lastname', value: Booking.lastname },
+export const RestfulNameFilters = [
+  { field: 'firstname', value: RestfulBooking.firstname },
+  { field: 'lastname', value: RestfulBooking.lastname },
 ];
 
-export const dateFilters = [
-  { field: 'checkin', value: Booking.bookingdates.checkin },
-  { field: 'checkout', value: Booking.bookingdates.checkout },
+export const RestfulDateFilters = [
+  { field: 'checkin', value: RestfulBooking.bookingdates.checkin },
+  { field: 'checkout', value: RestfulBooking.bookingdates.checkout },
 ];

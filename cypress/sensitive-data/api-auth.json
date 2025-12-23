@@ -1,7 +1,0 @@
-{
-  "ApiAdmin": {
-    "username": "admin",
-    "password": "password123",
-    "wrongPassword": "wrongPassword123"
-  }
-}

@@ -28,3 +28,7 @@ Thumbs.db
 cypress/screenshots/
 cypress/videos/
 cypress/downloads/
+
+# Cypress outputs with sensitive data
+
+cypress/sensitive-data/

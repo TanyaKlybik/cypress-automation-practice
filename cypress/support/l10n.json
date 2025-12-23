@@ -55,7 +55,7 @@
     "completeText": "Your order has been dispatched, and will arrive just as fast as the pony can get there!",
     "backHomeButton": "Back Home"
   },
-  "apiBooking": {
+  "apiRestfulBooking": {
     "errors": {
       "firstnameIsRequired": "Firstname is required",
       "lastnameIsRequired": "Lastname is required",
