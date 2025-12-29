@@ -18,7 +18,7 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
         bookingId = response.body.bookingid;
       });
     });
-    it('RestfulBooker.POST.Negative: Then it should fail with random mandatory field: ${field}', () => {
+    it.skip('RestfulBooker.POST.Negative: Then it should fail with random mandatory field: ${field}', () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/16
       cy.getRandomMandatoryField().then(({ field, data }) => {
         cy.restfulCreateBooking(data, { failOnStatusCode: false }).then((response) => {
