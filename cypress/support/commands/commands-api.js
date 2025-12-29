@@ -1,3 +1,5 @@
+import { RestfulMandatoryFields, RestfulBookingUpdate } from "../../test-data/booking.test-data";
+
 Cypress.Commands.add('restfulGetToken', () => {
   const apiAuth = Cypress.env('apiAuth');
   if (!apiAuth) throw new Error('apiAuth is missing! Check sensitive-data/api-auth.json');
@@ -109,4 +111,14 @@ Cypress.Commands.add('restfulDeleteBooking', (bookingId) => {
       failOnStatusCode: false,
     });
   });
+});
+
+Cypress.Commands.add('getRandomMandatoryField', () => {
+  const randomIndex = Math.floor(Math.random() * RestfulMandatoryFields.length);
+  return RestfulMandatoryFields[randomIndex];
+});
+
+Cypress.Commands.add('getRandomBookingUpdateField', () => {
+  const randomIndex = Math.floor(Math.random() * RestfulBookingUpdate.length);
+  return RestfulBookingUpdate[randomIndex];
 });

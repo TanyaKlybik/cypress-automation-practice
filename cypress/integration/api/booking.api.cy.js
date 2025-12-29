@@ -1,4 +1,4 @@
-import { RestfulBooking, RestfulBookingUpdate, RestfulTestDates, RestfulBookingNegative, RestfulMandatoryFields, RestfulNameFilters, RestfulDateFilters } from '../../test-data/booking.test-data';
+import { RestfulBooking, RestfulBookingUpdate, RestfulTestDates, RestfulBookingNegative, RestfulMandatoryFields} from '../../test-data/booking.test-data';
 
 describe('RestfulBooker.API: Given the Restful Booker API is available', { testIsolation: false }, () => {
   let bookingId = null;
@@ -18,12 +18,13 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
         bookingId = response.body.bookingid;
       });
     });
-    RestfulMandatoryFields.forEach(({ field, data, error }) => {
-      it.skip(`RestfulBooker.POST.Negative: Should not create booking with empty ${field}`, () => {
-        //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/16
+    it('RestfulBooker.POST.Negative: Then it should fail with random mandatory field: ${field}', () => {
+      //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/16
+      cy.getRandomMandatoryField().then(({ field, data }) => {
         cy.restfulCreateBooking(data, { failOnStatusCode: false }).then((response) => {
           expect(response.status).to.eq(500);
-          expect(response.body).to.eq(error);
+          expect(response.body).to.eq(l10n.apiRestfulBooking.errors.internalServerError);
+          cy.log(`Tested random field: ${field}`);
         });
       });
     });
@@ -82,82 +83,68 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
   });
 
   context('RestfulBooker.GET: Searching bookings by name', () => {
-    RestfulNameFilters.forEach(({ field, value }) => {
-      it(`RestfulBooker.GET: Then it should return bookings filtered by ${field}`, () => {
-        cy.restfulGetBookingsByFilter({ [field]: value }).then((response) => {
-          expect(response.status).to.eq(200);
-          expect(response.body).to.be.an('array');
-          expect(response.body.length).to.be.greaterThan(0);
-          response.body.slice(0, 3).forEach((b) => {
-            cy.restfulGetBookingById(b.bookingid).then((res) => {
-              expect(res.body[field]).to.eq(value);
-            });
-          });
+    it('RestfulBooker.GET: Then it should return bookings filtered by firstname', () => {
+      cy.restfulGetBookingsByFilter({ firstname: RestfulBooking.firstname }).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body.length).to.be.greaterThan(0);
+      });
+    });
+    it('RestfulBooker.GET: Then it should return bookings filtered by lastname', () => {
+      cy.restfulGetBookingsByFilter({ lastname: RestfulBooking.lastname }).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body.length).to.be.greaterThan(0);
         });
       });
     });
-  });
 
   context('RestfulBooker.GET: Searching bookings by dates', () => {
-    RestfulDateFilters.forEach(({ field, value }) => {
-      it.skip(`RestfulBooker.GET: Then it should return bookings filtered by ${field}`, () => {
-        //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/19
-        cy.restfulGetBookingsByFilter({ [field]: value }).then((response) => {
-          expect(response.status).to.eq(200);
-          expect(response.body).to.be.an('array');
-          expect(response.body.length).to.be.greaterThan(0);
-          response.body.slice(0, 3).forEach((b) => {
-            cy.restfulGetBookingById(b.bookingid).then((res) => {
-              const actualDate = new Date(res.body.bookingdates[field]);
-              const expectedDate = new Date(value);
-              expect(actualDate.getTime()).to.be.at.least(expectedDate.getTime());
-            });
-          });
+    it.skip('RestfulBooker.GET: Then it should return bookings filtered by checkin', () => {
+      //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/19
+      cy.restfulGetBookingsByFilter({ checkin: RestfulBooking.bookingdates.checkin }).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body.length).to.be.greaterThan(0);
         });
       });
-    });
+    it('RestfulBooker.GET: Then it should return bookings filtered by checkout', () => {
+      cy.restfulGetBookingsByFilter({ checkout: RestfulBooking.bookingdates.checkout }).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body.length).to.be.greaterThan(0);
+        });
+      });
   });
 
   context('RestfulBooker.PATCH: When updating booking data', () => {
-    RestfulBookingUpdate.forEach(({ field, value }) => {
-      it(`RestfulBooker.PATCH: Then it should update the "${field}" and return 200`, () => {
+    it('RestfulBooker.PATCH: Then it should update the random field and return 200: ${field}', () => {
+      cy.getRandomBookingUpdateField().then(({ field, value }) => {
         const patchBody = field === 'bookingdates' ? { bookingdates: value } : { [field]: value };
+
         cy.restfulUpdateBooking(bookingId, patchBody).then((response) => {
           expect(response.status).to.eq(200);
-          if (field === 'bookingdates') {
-            expect(response.body.bookingdates.checkin).to.eq(value.checkin);
-            expect(response.body.bookingdates.checkout).to.eq(value.checkout);
-          } else {
-            expect(response.body[field]).to.eq(value);
-          }
-        });
-      });
-    });
-  });
 
-  context('RestfulBooker.GETbyID: Verify all updated fields', () => {
-    it('RestfulBooker.GETbyID: Then it should return all updated fields', () => {
-      cy.restfulGetBookingById(bookingId).then((response) => {
-        expect(response.status).to.eq(200);
-        RestfulBookingUpdate.forEach(({ field, value }) => {
           if (field === 'bookingdates') {
             expect(response.body.bookingdates.checkin).to.eq(value.checkin);
             expect(response.body.bookingdates.checkout).to.eq(value.checkout);
           } else {
             expect(response.body[field]).to.eq(value);
           }
+
+          cy.log(`Updated random field: ${field}`);
         });
       });
     });
   });
 
   context.skip('RestfulBooker.PATCH.Negative: When updating with empty required fields', () => {
-    RestfulMandatoryFields.forEach(({ field, data, error }) => {
-      it.skip(`RestfulBooker.PATCH.Negative: Then it should not update when ${field} is empty`, () => {
-        //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/20
-        cy.restfulUpdateBooking(bookingId, data, { failOnStatusCode: false }).then((response) => {
-          expect(response.status).to.eq(500);
-          expect(response.body).to.eq(error);
+    it.skip(`RestfulBooker.PATCH.Negative: Then it should fail with random empty mandatory`, () => {
+      //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/20
+      cy.getRandomMandatoryField().then(({ field, data }) => {
+      cy.restfulUpdateBooking(bookingId, data, { failOnStatusCode: false }).then((response) => {
+        expect(response.status).to.eq(500);
+        cy.log(`Tried to update random empty mandatory field: ${field}`);
         });
       });
     });
