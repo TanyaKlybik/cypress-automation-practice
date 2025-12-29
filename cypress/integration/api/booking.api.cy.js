@@ -1,4 +1,4 @@
-import { RestfulBooking, RestfulBookingUpdate, RestfulTestDates, RestfulBookingNegative, RestfulMandatoryFields} from '../../test-data/booking.test-data';
+import { RestfulBooking, RestfulBookingUpdate, RestfulTestDates, RestfulBookingNegative, RestfulMandatoryFields } from '../../test-data/booking.test-data';
 
 describe('RestfulBooker.API: Given the Restful Booker API is available', { testIsolation: false }, () => {
   let bookingId = null;
@@ -95,9 +95,9 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an('array');
         expect(response.body.length).to.be.greaterThan(0);
-        });
       });
     });
+  });
 
   context('RestfulBooker.GET: Searching bookings by dates', () => {
     it.skip('RestfulBooker.GET: Then it should return bookings filtered by checkin', () => {
@@ -106,15 +106,15 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an('array');
         expect(response.body.length).to.be.greaterThan(0);
-        });
       });
+    });
     it('RestfulBooker.GET: Then it should return bookings filtered by checkout', () => {
       cy.restfulGetBookingsByFilter({ checkout: RestfulBooking.bookingdates.checkout }).then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an('array');
         expect(response.body.length).to.be.greaterThan(0);
-        });
       });
+    });
   });
 
   context('RestfulBooker.PATCH: When updating booking data', () => {
@@ -142,9 +142,9 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
     it.skip(`RestfulBooker.PATCH.Negative: Then it should fail with random empty mandatory`, () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/20
       cy.getRandomMandatoryField().then(({ field, data }) => {
-      cy.restfulUpdateBooking(bookingId, data, { failOnStatusCode: false }).then((response) => {
-        expect(response.status).to.eq(500);
-        cy.log(`Tried to update random empty mandatory field: ${field}`);
+        cy.restfulUpdateBooking(bookingId, data, { failOnStatusCode: false }).then((response) => {
+          expect(response.status).to.eq(500);
+          cy.log(`Tried to update random empty mandatory field: ${field}`);
         });
       });
     });

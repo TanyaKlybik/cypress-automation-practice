@@ -46,12 +46,12 @@ export const RestfulBookingNegative = {
 };
 
 export const RestfulMandatoryFields = [
-  { field: 'firstname', data: RestfulBookingNegative.EmptyFirstname},
-  { field: 'lastname', data: RestfulBookingNegative.EmptyLastname},
-  { field: 'totalprice', data: RestfulBookingNegative.EmptyTotalPrice},
-  { field: 'depositpaid', data: RestfulBookingNegative.EmptyDepositPaid},
-  { field: 'checkin', data: RestfulBookingNegative.EmptyCheckin},
-  { field: 'checkout', data: RestfulBookingNegative.EmptyCheckout},
+  { field: 'firstname', data: RestfulBookingNegative.EmptyFirstname },
+  { field: 'lastname', data: RestfulBookingNegative.EmptyLastname },
+  { field: 'totalprice', data: RestfulBookingNegative.EmptyTotalPrice },
+  { field: 'depositpaid', data: RestfulBookingNegative.EmptyDepositPaid },
+  { field: 'checkin', data: RestfulBookingNegative.EmptyCheckin },
+  { field: 'checkout', data: RestfulBookingNegative.EmptyCheckout },
 ];
 
 export const RestfulNameFilters = [

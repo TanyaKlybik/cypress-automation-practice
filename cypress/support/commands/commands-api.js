@@ -1,4 +1,4 @@
-import { RestfulMandatoryFields, RestfulBookingUpdate } from "../../test-data/booking.test-data";
+import { RestfulMandatoryFields, RestfulBookingUpdate } from '../../test-data/booking.test-data';
 
 Cypress.Commands.add('restfulGetToken', () => {
   const apiAuth = Cypress.env('apiAuth');
