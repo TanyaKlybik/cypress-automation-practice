@@ -3,8 +3,8 @@ import { RestfulBooking, RestfulBookingUpdate, RestfulTestDates, RestfulBookingN
 describe('RestfulBooker.API: Given the Restful Booker API is available', { testIsolation: false }, () => {
   let bookingId = null;
 
-  context.skip('RestfulBooker.Auth.Negative: Generate token with invalid credentials', () => {
-    it.skip('RestfulBooker.POST.Negative: Should return 401 when password is invalid', () => {
+  context.skip('RestfulBooker.Auth.Negative: When generate token with invalid credentials', () => {
+    it.skip('RestfulBooker.POST.Negative: Then it should return 401 when password is invalid', () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/21
       cy.getTokenNegative();
     });
@@ -82,7 +82,7 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
     });
   });
 
-  context('RestfulBooker.GET: Searching bookings by name', () => {
+  context('RestfulBooker.GET: When searching bookings by name', () => {
     it('RestfulBooker.GET: Then it should return bookings filtered by firstname', () => {
       cy.restfulGetBookingsByFilter({ firstname: RestfulBooking.firstname }).then((response) => {
         expect(response.status).to.eq(200);
@@ -99,7 +99,7 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
     });
   });
 
-  context('RestfulBooker.GET: Searching bookings by dates', () => {
+  context('RestfulBooker.GET: When searching bookings by dates', () => {
     it.skip('RestfulBooker.GET: Then it should return bookings filtered by checkin', () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/19
       cy.restfulGetBookingsByFilter({ checkin: RestfulBooking.bookingdates.checkin }).then((response) => {
