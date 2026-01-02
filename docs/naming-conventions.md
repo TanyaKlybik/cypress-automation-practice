@@ -8,12 +8,12 @@
   API test files end with `.api.cy.js`
   Example: `users-get.api.cy.js`
 
-- Group files by functionality.  
+- Group files by functionality.
   Example: `auth/login-form.ui.cy.js`
 
 ## Components
 
-- Use `PascalCase` for component names.  
+- Use `PascalCase` for component names.
   Example: `LoginForm`, `CartItem`
 
 ## Tests
@@ -29,7 +29,7 @@ it('logs in with valid credentials', () => {
 
 ### Naming Conventions for `describe`, `context`, and `it` blocks
 
-- **`describe` block**:  
+- **`describe` block**:
   Used for describing the component or functionality being tested. The name should be clear and descriptive, usually in the format `Component/Page: Feature` or `Component/Page: Action` - UI and `[HTTP method] [endpoint]: [Given...]` - API. This helps to quickly understand what is being tested in that block.
 
   **Example**:
@@ -44,7 +44,7 @@ it('logs in with valid credentials', () => {
   describe('Booking POST: Given valid credentials', () => { ... });
   ```
 
-- **`context` block**:  
+- **`context` block**:
   Used for describing conditions or scenarios in which the tests are executed. Typically starts with the keyword "When" (or similar). The context should clarify under what conditions the test is performed.
 
   **Example**:
@@ -59,7 +59,7 @@ it('logs in with valid credentials', () => {
   context('Booking POST: When token is missing', () => { ... });
   ```
 
-- **`it` block**:  
+- **`it` block**:
   Used for describing individual tests or assertions. It usually starts with the keyword "Then" (or similar) to describe the expected behavior of the component or functionality under the given conditions.
 
   **Example**:

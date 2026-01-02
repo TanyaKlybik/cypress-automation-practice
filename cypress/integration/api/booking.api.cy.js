@@ -1,12 +1,12 @@
-import { RestfulBooking, RestfulBookingUpdate, RestfulTestDates, RestfulBookingNegative, RestfulMandatoryFields } from '../../test-data/booking.test-data';
+import { RestfulBooking, RestfulTestDates, RestfulBookingNegative } from '../../test-data/booking.test-data';
 
-describe('RestfulBooker.API: Given the Restful Booker API is available', { testIsolation: false }, () => {
+describe('RestfulBooker API: Given the Restful Booker API is available', { testIsolation: false }, () => {
   let bookingId = null;
 
   context.skip('RestfulBooker.Auth.Negative: When generate token with invalid credentials', () => {
     it.skip('RestfulBooker.POST.Negative: Then it should return 401 when password is invalid', () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/21
-      cy.getTokenNegative();
+      cy.restfulGetTokenNegative();
     });
   });
 
@@ -152,7 +152,7 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
 
   context.skip('RestfulBooker.PATCH.Negative: When updating with check-in later than checkout', () => {
     it.skip('RestfulBooker.PATCH.Negative: Then it should not update when checkin is later than checkout', () => {
-      const patchBody = { Restfulbookingdates: { checkin: RestfulTestDates.futureCheckout, checkout: RestfulTestDates.futureCheckin } };
+      const patchBody = { bookingdates: { checkin: RestfulTestDates.futureCheckout, checkout: RestfulTestDates.futureCheckin } };
       cy.restfulUpdateBooking(bookingId, patchBody, { failOnStatusCode: false }).then((response) => {
         expect(response.status).to.eq(500);
         expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
@@ -162,7 +162,7 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
 
   context.skip('RestfulBooker.PATCH.Negative: When updating with check-in in the past', () => {
     it.skip('RestfulBooker.PATCH.Negative: Then it should not update when checkin is in the past', () => {
-      const patchBody = { Restfulbookingdates: { checkin: RestfulTestDates.pastCheckin } };
+      const patchBody = { bookingdates: { checkin: RestfulTestDates.pastCheckin } };
       cy.restfulUpdateBooking(bookingId, patchBody, { failOnStatusCode: false }).then((response) => {
         expect(response.status).to.eq(500);
         expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinInPast);
@@ -172,7 +172,7 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
 
   context.skip('RestfulBooker.PATCH.Negative: When updating with check-in equal to checkout', () => {
     it.skip('RestfulBooker.PATCH.Negative: Then it should not update when checkin equals checkout', () => {
-      const patchBody = { Restfulbookingdates: { checkin: RestfulTestDates.sameDate, checkout: RestfulTestDates.sameDate } };
+      const patchBody = { bookingdates: { checkin: RestfulTestDates.sameDate, checkout: RestfulTestDates.sameDate } };
       cy.restfulUpdateBooking(bookingId, patchBody, { failOnStatusCode: false }).then((response) => {
         expect(response.status).to.eq(500);
         expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
@@ -182,7 +182,7 @@ describe('RestfulBooker.API: Given the Restful Booker API is available', { testI
 
   context.skip('RestfulBooker.PATCH.Negative: When updating with invalid date format', () => {
     it.skip('RestfulBooker.PATCH.Negative: Then it should not update when date format is invalid', () => {
-      const patchBody = { Restfulbookingdates: { checkin: RestfulTestDates.invalidFormat } };
+      const patchBody = { bookingdates: { checkin: RestfulTestDates.invalidFormat } };
       cy.restfulUpdateBooking(bookingId, patchBody, { failOnStatusCode: false }).then((response) => {
         expect(response.status).to.eq(500);
         expect(response.body).to.eq(l10n.apiRestfulBooking.errors.invalidDateFormat);

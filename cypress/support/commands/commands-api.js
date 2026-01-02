@@ -2,7 +2,7 @@ import { RestfulMandatoryFields, RestfulBookingUpdate } from '../../test-data/bo
 
 Cypress.Commands.add('restfulGetToken', () => {
   const apiAuth = Cypress.env('apiAuth');
-  if (!apiAuth) throw new Error('apiAuth is missing! Check sensitive-data/api-auth.json');
+  if (!apiAuth) throw new Error('apiAuth is missing! Check sensitive-data/env-users.json');
   const admin = apiAuth.ApiAdmin;
   if (!admin) throw new Error('ApiAdmin not found in apiAuth');
   cy.log(`Using API user: ${admin.username}`);
@@ -24,7 +24,7 @@ Cypress.Commands.add('restfulGetToken', () => {
 Cypress.Commands.add('restfulGetTokenNegative', () => {
   const apiAuth = Cypress.env('apiAuth');
   if (!apiAuth) {
-    throw new Error('apiAuth is missing! Check sensitive-data/api-auth.json');
+    throw new Error('apiAuth is missing! Check sensitive-data/env-users.json');
   }
   const admin = apiAuth.ApiAdmin;
   return cy
