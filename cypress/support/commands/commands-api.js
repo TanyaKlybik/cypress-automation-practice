@@ -1,24 +1,29 @@
-import { RestfulMandatoryFields, RestfulBookingUpdate } from '../../test-data/booking.test-data';
+import { RestfulBookingUpdate, RestfulMandatoryFields } from '../../test-data/booking.test-data';
 
-Cypress.Commands.add('restfulGetToken', () => {
-  const apiAuth = Cypress.env('apiAuth');
-  if (!apiAuth) throw new Error('apiAuth is missing! Check sensitive-data/env-users.json');
-  const admin = apiAuth.ApiAdmin;
-  if (!admin) throw new Error('ApiAdmin not found in apiAuth');
-  cy.log(`Using API user: ${admin.username}`);
-  return cy
-    .request({
+Cypress.Commands.add('restfullBooker__getAuthToken__GET', (userRole) => {
+  let username;
+  let password;
+  cy.then(() => {
+    cy.getUserDataByRole(userRole).then((user) => {
+      username = user.username;
+      password = user.password;
+    });
+  });
+  return cy.then(() => {
+    cy.request({
       method: 'POST',
       url: urls.apiAuth,
-      body: {
-        username: admin.username,
-        password: admin.password,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    })
-    .then((res) => {
-      if (!res.body?.token) throw new Error('Token not returned from API');
+      body: {
+        username,
+        password,
+      },
+    }).then((res) => {
       return res.body.token;
     });
+  });
 });
 
 Cypress.Commands.add('restfulGetTokenNegative', () => {
@@ -44,13 +49,12 @@ Cypress.Commands.add('restfulGetTokenNegative', () => {
 });
 
 Cypress.Commands.add('restfulCreateBooking', (bookingData, options = {}) => {
-  const requestOptions = {
+  return cy.request({
     method: 'POST',
     url: urls.apiBooking,
     body: bookingData,
     ...options,
-  };
-  return cy.request(requestOptions);
+  });
 });
 
 Cypress.Commands.add('restfulGetAllBookings', () => {
@@ -77,39 +81,24 @@ Cypress.Commands.add('restfulGetBookingsByFilter', (filter) => {
   });
 });
 
-Cypress.Commands.add('restfulUpdateBooking', (bookingId, updateData) => {
-  const apiAuth = Cypress.env('apiAuth');
-  const admin = apiAuth?.ApiAdmin;
-
-  if (!admin) {
-    throw new Error('apiAuth.ApiAdmin is missing! Проверьте api-auth.json и конфиг Cypress.');
-  }
-  return cy
-    .request({
-      method: 'POST',
-      url: urls.apiAuth,
-      body: { username: admin.username, password: admin.password },
-    })
-    .then((auth) => {
-      return cy.request({
-        method: 'PATCH',
-        url: urls.apiBookingById(bookingId),
-        headers: { Cookie: `token=${auth.body.token}` },
-        body: updateData,
-      });
-    });
+Cypress.Commands.add('restfulUpdateBooking', (token, bookingId, updateData, options = {}) => {
+  return cy.request({
+    method: 'PATCH',
+    url: urls.apiBookingById(bookingId),
+    headers: { Cookie: `token=${token}` },
+    body: updateData,
+    ...options,
+  });
 });
 
-Cypress.Commands.add('restfulDeleteBooking', (bookingId) => {
-  return cy.restfulGetToken().then((token) => {
-    return cy.request({
-      method: 'DELETE',
-      url: urls.apiBookingById(bookingId),
-      headers: {
-        Cookie: `token=${token}`,
-      },
-      failOnStatusCode: false,
-    });
+Cypress.Commands.add('restfulDeleteBooking', (token, bookingId) => {
+  return cy.request({
+    method: 'DELETE',
+    url: urls.apiBookingById(bookingId),
+    headers: {
+      Cookie: `token=${token}`,
+    },
+    failOnStatusCode: false,
   });
 });
 

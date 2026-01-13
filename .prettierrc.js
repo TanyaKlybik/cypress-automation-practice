@@ -9,5 +9,3 @@ module.exports = {
   arrowParens: 'always',
   endOfLine: 'lf',
 };
-
-//npm run format

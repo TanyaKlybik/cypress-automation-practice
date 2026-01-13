@@ -1,4 +1,4 @@
-describe('RestfulBooker.GET.ping: Given the API is available', () => {
+describe('RestfulBooker.GET.ping: Given no preconditions', () => {
   context('RestfulBooker.GET.ping: When sending GET request to /ping endpoint', () => {
     it('RestfulBooker.GET.ping: Then it should return 201 status code', () => {
       cy.request({

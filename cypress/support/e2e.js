@@ -28,4 +28,4 @@ global.checkOutOverviewPage = selectors.checkOutOverviewPage;
 global.checkOutCompletePage = selectors.checkOutCompletePage;
 global.urls = urls;
 global.userRoles = userRoles.userRoles;
-global.colours = colours;
+global.colours = colours.colours;

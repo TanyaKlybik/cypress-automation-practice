@@ -3,4 +3,7 @@ const colours = {
   MENU_OPTION_HOVER: 'rgb(61, 220, 145)',
 };
 
-export default colours;
+export default {
+  colours,
+};
+

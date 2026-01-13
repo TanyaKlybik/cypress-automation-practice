@@ -11,23 +11,7 @@
 - Group files by functionality.
   Example: `auth/login-form.ui.cy.js`
 
-## Components
-
-- Use `PascalCase` for component names.
-  Example: `LoginForm`, `CartItem`
-
-## Tests
-
-- Test filenames must end with `.cy.js` to clearly indicate Cypress tests (UI: `.ui.cy.js`, API: `.api.cy.js`).
-- Use clear and descriptive names in test cases:
-
-```js
-it('logs in with valid credentials', () => {
-  // test logic
-});
-```
-
-### Naming Conventions for `describe`, `context`, and `it` blocks
+## Naming Conventions for `describe`, `context`, and `it` blocks
 
 - **`describe` block**:
   Used for describing the component or functionality being tested. The name should be clear and descriptive, usually in the format `Component/Page: Feature` or `Component/Page: Action` - UI and `[HTTP method] [endpoint]: [Given...]` - API. This helps to quickly understand what is being tested in that block.

@@ -31,4 +31,5 @@ cypress/downloads/
 
 # Cypress outputs with sensitive data
 
-cypress/sensitive-data/
+sensitive-data/**
+!sensitive-data/.gitkeep
