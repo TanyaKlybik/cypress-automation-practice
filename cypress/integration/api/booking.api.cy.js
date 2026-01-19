@@ -21,7 +21,7 @@ describe(`RestfulBooker API: Given the Restful Booker API is available`, { testI
 
   context.skip(`RestfullBooker__POST: When creating a new booking with at least 1 empty mandatory field`, () => {
     //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/16
-    let randomField; 
+    let randomField;
     before(() => {
       cy.restfullBooker__getRandomMandatoryField__GET().then((field) => {
         randomField = field;
@@ -40,53 +40,45 @@ describe(`RestfulBooker API: Given the Restful Booker API is available`, { testI
 
   context.skip(`RestfullBooker__POST: When creating a new booking with invalid price format`, () => {
     it.skip(`RestfullBooker__POST: Then it should fail without creating the booking because of invalid price format`, () => {
-      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('invalidPriceType')
-      .then((bookingData) => {
-        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false })
-          .then((response) => {
-            expect(response.status).to.eq(500);
-            expect(response.body).to.eq(l10n.apiRestfulBooking.errors.internalServerError);
-          });
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('invalidPriceType').then((bookingData) => {
+        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false }).then((response) => {
+          expect(response.status).to.eq(500);
+          expect(response.body).to.eq(l10n.apiRestfulBooking.errors.internalServerError);
         });
+      });
     });
-  }); 
+  });
 
   context.skip(`RestfullBooker__POST: When creating a new booking when checkin is later than checkout`, () => {
     it.skip(`RestfullBooker__POST: Then it should fail without creating the booking because checkin is later than checkout`, () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/17
-      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInAfterCheckOut')
-      .then((bookingData) => {
-        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false })
-          .then((response) => {
-            expect(response.status).to.eq(500);
-            expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
-          });
-       });
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInAfterCheckOut').then((bookingData) => {
+        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false }).then((response) => {
+          expect(response.status).to.eq(500);
+          expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
+        });
+      });
     });
   });
 
   context.skip(`RestfullBooker__POST: When creating a new booking when checkin equals checkout`, () => {
     it.skip(`RestfullBooker__POST:Then it should fail without creating the booking because checkin equals checkout`, () => {
-      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInEqualToCheckOut')
-      .then((bookingData) => {
-        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false })
-          .then((response) => {
-            expect(response.status).to.eq(500);
-            expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkInEqualToCheckOut);
-          });
-       });
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInEqualToCheckOut').then((bookingData) => {
+        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false }).then((response) => {
+          expect(response.status).to.eq(500);
+          expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkInEqualToCheckOut);
+        });
+      });
     });
   });
 
   context.skip(`RestfullBooker__POST: When creating a new booking when checkin is in the past`, () => {
     it.skip(`RestfullBooker__POST: Then it should fail without creating the booking because checkin is in the past`, () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/17
-      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInInPast')
-      .then((bookingData) => {
-        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false })
-          .then((response) => {
-            expect(response.status).to.eq(500);
-            expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinInPast);
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInInPast').then((bookingData) => {
+        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false }).then((response) => {
+          expect(response.status).to.eq(500);
+          expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinInPast);
         });
       });
     });
@@ -95,12 +87,10 @@ describe(`RestfulBooker API: Given the Restful Booker API is available`, { testI
   context.skip(`RestfullBooker__POST: When creating a new booking with invalid date format`, () => {
     it.skip(`RestfullBooker__POST: Then it should fail without creating the booking because of invalid date format`, () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/18
-      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('invalidDateFormat')
-      .then((bookingData) => {
-        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false })
-          .then((response) => {
-            expect(response.status).to.eq(500);
-            expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinInPast);
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('invalidDateFormat').then((bookingData) => {
+        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false }).then((response) => {
+          expect(response.status).to.eq(500);
+          expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinInPast);
         });
       });
     });
@@ -114,8 +104,8 @@ describe(`RestfulBooker API: Given the Restful Booker API is available`, { testI
           method: 'POST',
           url: urls.apiAuth,
           body: {
-          username: user.username,
-          password: user.wrongPassword
+            username: user.username,
+            password: user.wrongPassword,
           },
         }).then((res) => {
           expect(res.status).to.eq(401);
@@ -185,7 +175,7 @@ describe(`RestfulBooker API: Given the Restful Booker API is available`, { testI
     let randomField;
     before(() => {
       cy.restfullBooker__getRandomBookingUpdateField__GET().then(({ field, value }) => {
-        randomField = field;  
+        randomField = field;
         patchBody = field === 'bookingdates' ? { bookingdates: value } : { [field]: value };
         cy.log(`Updated random field: ${randomField}`);
       });
@@ -210,24 +200,24 @@ describe(`RestfulBooker API: Given the Restful Booker API is available`, { testI
       cy.restfullBooker__getRandomMandatoryField__GET().then((field) => {
         randomField = field;
       });
-        cy.log(`Selected random mandatory field: ${randomField}`);
-      });
+      cy.log(`Selected random mandatory field: ${randomField}`);
+    });
     it.skip(`RestfullBooker__PATCH: Then it should fail with random empty mandatory`, () => {
-       cy.restfullBooker__prepareBookingWithEmptyField__GET(randomField).then((bookingData) => {
+      cy.restfullBooker__prepareBookingWithEmptyField__GET(randomField).then((bookingData) => {
         cy.restfullBooker__updateBooking__PATCH(adminToken, testData.bookingId, bookingData, { failOnStatusCode: false }).then((response) => {
           expect(response.status).to.eq(500);
           expect(response.body).to.eq(l10n.apiRestfulBooking.errors.internalServerError);
-          });
         });
-     });
-   });
+      });
+    });
+  });
 
   context.skip(`RestfullBooker__PATCH: When updating with check-in later than checkout`, () => {
     it.skip(`RestfullBooker__PATCH: Then it should fail when checkin is later than checkout`, () => {
       cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInAfterCheckOut').then((bookingData) => {
-       cy.restfullBooker__updateBooking__PATCH(adminToken, testData.bookingId, bookingData, { failOnStatusCode: false }).then((response) => {
-        expect(response.status).to.eq(500);
-        expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
+        cy.restfullBooker__updateBooking__PATCH(adminToken, testData.bookingId, bookingData, { failOnStatusCode: false }).then((response) => {
+          expect(response.status).to.eq(500);
+          expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
         });
       });
     });
@@ -240,7 +230,7 @@ describe(`RestfulBooker API: Given the Restful Booker API is available`, { testI
           expect(response.status).to.eq(500);
           expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinInPast);
         });
-       });
+      });
     });
   });
 

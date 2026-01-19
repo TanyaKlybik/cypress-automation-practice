@@ -30,9 +30,9 @@ export const testData = {
     invalidDateFormat: {
       checkin: '01/01/2025',
       checkout: '01/05/2025',
-    }
+    },
   },
-   restfulBookingUpdate: [
+  restfulBookingUpdate: [
     { field: 'firstname', value: 'Mark' },
     { field: 'lastname', value: 'Claire' },
     { field: 'totalprice', value: 555 },
@@ -44,6 +44,3 @@ export const testData = {
     { field: 'additionalneeds', value: 'Late Checkout' },
   ],
 };
-
-
-

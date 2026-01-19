@@ -100,26 +100,24 @@ Cypress.Commands.add('restfullBooker__prepareBookingWithEmptyField__GET', (field
   return cy.wrap(bookingData);
 });
 
-Cypress.Commands.add('restfullBooker__prepareBookingWithUpdatedItem__GET',(updatedItemKey) => {
-    const bookingData = {...testData.restfulBooking, bookingdates: { ...testData.restfulBooking.bookingdates }
-    };
-    const update = testData.updatedItems[updatedItemKey];
-    if (!update) {
-      throw new Error(`updatedItems does not contain key: ${updatedItemKey}`);
-    }
-    if (typeof update === 'object' && !Array.isArray(update)) {
-      bookingData.bookingdates = {
-        ...bookingData.bookingdates,
-        ...update
-      };
-    } else {
-      if (updatedItemKey === 'invalidPriceType') {
-        bookingData.totalprice = update;
-      }
-      if (updatedItemKey === 'invalidDepositType') {
-        bookingData.depositpaid = update;
-      }
-    }
-    return cy.wrap(bookingData);
+Cypress.Commands.add('restfullBooker__prepareBookingWithUpdatedItem__GET', (updatedItemKey) => {
+  const bookingData = { ...testData.restfulBooking, bookingdates: { ...testData.restfulBooking.bookingdates } };
+  const update = testData.updatedItems[updatedItemKey];
+  if (!update) {
+    throw new Error(`updatedItems does not contain key: ${updatedItemKey}`);
   }
-);
+  if (typeof update === 'object' && !Array.isArray(update)) {
+    bookingData.bookingdates = {
+      ...bookingData.bookingdates,
+      ...update,
+    };
+  } else {
+    if (updatedItemKey === 'invalidPriceType') {
+      bookingData.totalprice = update;
+    }
+    if (updatedItemKey === 'invalidDepositType') {
+      bookingData.depositpaid = update;
+    }
+  }
+  return cy.wrap(bookingData);
+});
