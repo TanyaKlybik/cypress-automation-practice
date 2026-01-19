@@ -1,6 +1,6 @@
-import { RestfulBookingUpdate, RestfulMandatoryFields } from '../../test-data/booking.test-data';
+import { testData } from '../../test-data/booking.test-data';
 
-Cypress.Commands.add('restfullBooker__getAuthToken__GET', (userRole) => {
+Cypress.Commands.add('restfullBooker__getAuthToken__POST', (userRole) => {
   let username;
   let password;
   cy.then(() => {
@@ -26,29 +26,7 @@ Cypress.Commands.add('restfullBooker__getAuthToken__GET', (userRole) => {
   });
 });
 
-Cypress.Commands.add('restfulGetTokenNegative', () => {
-  const apiAuth = Cypress.env('apiAuth');
-  if (!apiAuth) {
-    throw new Error('apiAuth is missing! Check sensitive-data/env-users.json');
-  }
-  const admin = apiAuth.ApiAdmin;
-  return cy
-    .request({
-      method: 'POST',
-      url: urls.apiAuth,
-      body: {
-        username: admin.username,
-        password: admin.wrongPassword,
-      },
-      failOnStatusCode: false,
-    })
-    .then((response) => {
-      expect(response.status).to.eq(401);
-      return response;
-    });
-});
-
-Cypress.Commands.add('restfulCreateBooking', (bookingData, options = {}) => {
+Cypress.Commands.add('restfullBooker__createBooking__POST', (bookingData, options = {}) => {
   return cy.request({
     method: 'POST',
     url: urls.apiBooking,
@@ -57,14 +35,14 @@ Cypress.Commands.add('restfulCreateBooking', (bookingData, options = {}) => {
   });
 });
 
-Cypress.Commands.add('restfulGetAllBookings', () => {
+Cypress.Commands.add('restfullBooker__getAllBookings__GET', () => {
   return cy.request({
     method: 'GET',
     url: urls.apiBooking,
   });
 });
 
-Cypress.Commands.add('restfulGetBookingById', (bookingId) => {
+Cypress.Commands.add('restfullBooker__getAllBookingsById__GET', (bookingId) => {
   return cy.request({
     method: 'GET',
     url: urls.apiBookingById(bookingId),
@@ -72,7 +50,7 @@ Cypress.Commands.add('restfulGetBookingById', (bookingId) => {
   });
 });
 
-Cypress.Commands.add('restfulGetBookingsByFilter', (filter) => {
+Cypress.Commands.add('restfullBooker__getAllBookingsByFilter__GET', (filter) => {
   return cy.request({
     method: 'GET',
     url: urls.apiBooking,
@@ -81,7 +59,7 @@ Cypress.Commands.add('restfulGetBookingsByFilter', (filter) => {
   });
 });
 
-Cypress.Commands.add('restfulUpdateBooking', (token, bookingId, updateData, options = {}) => {
+Cypress.Commands.add('restfullBooker__updateBooking__PATCH', (token, bookingId, updateData, options = {}) => {
   return cy.request({
     method: 'PATCH',
     url: urls.apiBookingById(bookingId),
@@ -91,7 +69,7 @@ Cypress.Commands.add('restfulUpdateBooking', (token, bookingId, updateData, opti
   });
 });
 
-Cypress.Commands.add('restfulDeleteBooking', (token, bookingId) => {
+Cypress.Commands.add('restfullBooker__deleteBooking__DELETE', (token, bookingId) => {
   return cy.request({
     method: 'DELETE',
     url: urls.apiBookingById(bookingId),
@@ -102,12 +80,46 @@ Cypress.Commands.add('restfulDeleteBooking', (token, bookingId) => {
   });
 });
 
-Cypress.Commands.add('getRandomMandatoryField', () => {
-  const randomIndex = Math.floor(Math.random() * RestfulMandatoryFields.length);
-  return RestfulMandatoryFields[randomIndex];
+Cypress.Commands.add('restfullBooker__getRandomMandatoryField__GET', () => {
+  const randomIndex = Math.floor(Math.random() * testData.restfulMandatoryFields.length);
+  return testData.restfulMandatoryFields[randomIndex];
 });
 
-Cypress.Commands.add('getRandomBookingUpdateField', () => {
-  const randomIndex = Math.floor(Math.random() * RestfulBookingUpdate.length);
-  return RestfulBookingUpdate[randomIndex];
+Cypress.Commands.add('restfullBooker__getRandomBookingUpdateField__GET', () => {
+  const randomIndex = Math.floor(Math.random() * testData.restfulBookingUpdate.length);
+  return testData.restfulBookingUpdate[randomIndex];
 });
+
+Cypress.Commands.add('restfullBooker__prepareBookingWithEmptyField__GET', (field) => {
+  const bookingData = { ...testData.restfulBooking };
+  if (field === 'checkin' || field === 'checkout') {
+    bookingData.bookingdates = { ...bookingData.bookingdates, [field]: '' };
+  } else {
+    bookingData[field] = '';
+  }
+  return cy.wrap(bookingData);
+});
+
+Cypress.Commands.add('restfullBooker__prepareBookingWithUpdatedItem__GET',(updatedItemKey) => {
+    const bookingData = {...testData.restfulBooking, bookingdates: { ...testData.restfulBooking.bookingdates }
+    };
+    const update = testData.updatedItems[updatedItemKey];
+    if (!update) {
+      throw new Error(`updatedItems does not contain key: ${updatedItemKey}`);
+    }
+    if (typeof update === 'object' && !Array.isArray(update)) {
+      bookingData.bookingdates = {
+        ...bookingData.bookingdates,
+        ...update
+      };
+    } else {
+      if (updatedItemKey === 'invalidPriceType') {
+        bookingData.totalprice = update;
+      }
+      if (updatedItemKey === 'invalidDepositType') {
+        bookingData.depositpaid = update;
+      }
+    }
+    return cy.wrap(bookingData);
+  }
+);

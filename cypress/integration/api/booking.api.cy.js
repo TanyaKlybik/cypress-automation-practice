@@ -1,79 +1,133 @@
 import { testData } from '../../test-data/booking.test-data';
 
-describe('RestfulBooker API: Given the Restful Booker API is available', { testIsolation: false }, () => {
+describe(`RestfulBooker API: Given the Restful Booker API is available`, { testIsolation: false }, () => {
   let adminToken;
 
   before(() => {
-    cy.restfullBooker__getAuthToken__GET(userRoles.API_ADMIN).then((token) => {
+    cy.restfullBooker__getAuthToken__POST(userRoles.API_ADMIN).then((token) => {
       adminToken = token;
     });
   });
 
-  context('RestfulBooker.POST: When creating a new booking', () => {
-    it('RestfulBooker.POST.Positive: Then it should return 200 and booking id', () => {
-      cy.restfulCreateBooking(testData.restfulBooking).then((response) => {
+  context(`RestfullBooker__POST: When creating a new booking`, () => {
+    it(`RestfullBooker__POST: Then it should return 200 and booking id`, () => {
+      cy.restfullBooker__createBooking__POST(testData.restfulBooking).then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.have.property('bookingid');
         testData.bookingId = response.body.bookingid;
       });
     });
-    it.skip('RestfulBooker.POST.Negative: Then it should fail with random mandatory field: ${field}', () => {
-      //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/16
-      cy.getRandomMandatoryField().then(({ field, data }) => {
-        cy.restfulCreateBooking(data, { failOnStatusCode: false }).then((response) => {
+  });
+
+  context.skip(`RestfullBooker__POST: When creating a new booking with at least 1 empty mandatory field`, () => {
+    //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/16
+    let randomField; 
+    before(() => {
+      cy.restfullBooker__getRandomMandatoryField__GET().then((field) => {
+        randomField = field;
+        cy.log(`Selected random mandatory field: ${randomField}`);
+      });
+    });
+    it.skip(`RestfullBooker__POST: Then it should fail without creating the booking because the field is empty and return 500`, () => {
+      cy.restfullBooker__prepareBookingWithEmptyField__GET(randomField).then((bookingData) => {
+        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false }).then((response) => {
           expect(response.status).to.eq(500);
           expect(response.body).to.eq(l10n.apiRestfulBooking.errors.internalServerError);
-          cy.log(`Tested random field: ${field}`);
         });
       });
     });
-    it.skip('RestfulBooker.POST.Negative: Then it should not create booking with invalid price format', () => {
-      cy.restfulCreateBooking(testData.restfulBookingNegative.InvalidPriceType, { failOnStatusCode: false }).then((response) => {
-        expect(response.status).to.eq(500);
-        expect(response.body).to.eq(l10n.apiRestfulBooking.errors.internalServerError);
-      });
-    });
-    it.skip('RestfulBooker.POST.Negative: Then it should not create booking when checkin is later than checkout', () => {
-      //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/17
-      cy.restfulCreateBooking(testData.restfulBookingNegative.CheckinAfterCheckout, { failOnStatusCode: false }).then((response) => {
-        expect(response.status).to.eq(500);
-        expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
-      });
-    });
+  });
 
-    it.skip('RestfulBooker.POST.Negative: Then it should not create booking when checkin equals checkout', () => {
-      cy.restfulCreateBooking(testData.restfulBookingNegative.CheckinEqualCheckout, { failOnStatusCode: false }).then((response) => {
-        expect(response.status).to.eq(500);
-        expect(response.body).to.eq(l10n.apiRestfulBooking.errors.internalServerError);
-      });
+  context.skip(`RestfullBooker__POST: When creating a new booking with invalid price format`, () => {
+    it.skip(`RestfullBooker__POST: Then it should fail without creating the booking because of invalid price format`, () => {
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('invalidPriceType')
+      .then((bookingData) => {
+        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false })
+          .then((response) => {
+            expect(response.status).to.eq(500);
+            expect(response.body).to.eq(l10n.apiRestfulBooking.errors.internalServerError);
+          });
+        });
     });
+  }); 
 
-    it.skip('RestfulBooker.POST.Negative: Then it should not create booking when checkin is in the past', () => {
+  context.skip(`RestfullBooker__POST: When creating a new booking when checkin is later than checkout`, () => {
+    it.skip(`RestfullBooker__POST: Then it should fail without creating the booking because checkin is later than checkout`, () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/17
-      cy.restfulCreateBooking(testData.restfulBookingNegative.CheckinInPast, { failOnStatusCode: false }).then((response) => {
-        expect(response.status).to.eq(500);
-        expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinInPast);
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInAfterCheckOut')
+      .then((bookingData) => {
+        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false })
+          .then((response) => {
+            expect(response.status).to.eq(500);
+            expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
+          });
+       });
+    });
+  });
+
+  context.skip(`RestfullBooker__POST: When creating a new booking when checkin equals checkout`, () => {
+    it.skip(`RestfullBooker__POST:Then it should fail without creating the booking because checkin equals checkout`, () => {
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInEqualToCheckOut')
+      .then((bookingData) => {
+        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false })
+          .then((response) => {
+            expect(response.status).to.eq(500);
+            expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkInEqualToCheckOut);
+          });
+       });
+    });
+  });
+
+  context.skip(`RestfullBooker__POST: When creating a new booking when checkin is in the past`, () => {
+    it.skip(`RestfullBooker__POST: Then it should fail without creating the booking because checkin is in the past`, () => {
+      //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/17
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInInPast')
+      .then((bookingData) => {
+        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false })
+          .then((response) => {
+            expect(response.status).to.eq(500);
+            expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinInPast);
+        });
       });
     });
-    it.skip('RestfulBooker.POST.Negative: Then it should not create booking with invalid date format', () => {
+  });
+
+  context.skip(`RestfullBooker__POST: When creating a new booking with invalid date format`, () => {
+    it.skip(`RestfullBooker__POST: Then it should fail without creating the booking because of invalid date format`, () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/18
-      cy.restfulCreateBooking(testData.restfulBookingNegative.InvalidDateFormat, { failOnStatusCode: false }).then((response) => {
-        expect(response.status).to.eq(500);
-        expect(response.body).to.eq(l10n.apiRestfulBooking.errors.invalidDateFormat);
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('invalidDateFormat')
+      .then((bookingData) => {
+        cy.restfullBooker__createBooking__POST(bookingData, { failOnStatusCode: false })
+          .then((response) => {
+            expect(response.status).to.eq(500);
+            expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinInPast);
+        });
       });
     });
   });
 
-  context.skip('RestfulBooker.Auth.Negative: When generate token with invalid credentials', () => {
-    it.skip('RestfulBooker.POST.Negative: Then it should return 401 when password is invalid', () => {
+  context.skip(`RestfullBooker__POST: When generate token with invalid credentials`, () => {
+    it.skip(`RestfullBooker__POST: Then it should fail and shouldn't have a token`, () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/21
-      cy.restfulGetTokenNegative();
+      cy.getUserDataByRole(userRoles.API_ADMIN).then((user) => {
+        cy.request({
+          method: 'POST',
+          url: urls.apiAuth,
+          body: {
+          username: user.username,
+          password: user.wrongPassword
+          },
+        }).then((res) => {
+          expect(res.status).to.eq(401);
+          expect(res.body).not.to.have.property('token');
+        });
+      });
     });
   });
 
-  context('RestfulBooker.GET: When requesting all bookings', () => {
-    it('RestfulBooker.GET: Then it should return 200 and an array', () => {
-      cy.restfulGetAllBookings().then((response) => {
+  context(`RestfullBooker__GET: When requesting all bookings`, () => {
+    it(`RestfullBooker__GET: Then it should return 200 and an array`, () => {
+      cy.restfullBooker__getAllBookings__GET().then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an('array');
         expect(response.body.length).to.be.greaterThan(0);
@@ -81,25 +135,26 @@ describe('RestfulBooker API: Given the Restful Booker API is available', { testI
     });
   });
 
-  context('RestfulBooker.GETbyID: When requesting booking by id', () => {
-    it('RestfulBooker.GETbyID: Then it should return 200 and booking details', () => {
-      cy.restfulGetBookingById(bookingId).then((response) => {
+  context(`RestfullBooker__GETbyId: When requesting booking by id`, () => {
+    it(`RestfullBooker__GETbyId: Then it should return 200 and booking details`, () => {
+      cy.restfullBooker__getAllBookingsById__GET(testData.bookingId).then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body.firstname).to.eq(testData.restfulBooking.firstname);
+        expect(response.body.lastname).to.eq(testData.restfulBooking.lastname);
       });
     });
   });
 
-  context('RestfulBooker.GET: When searching bookings by name', () => {
-    it('RestfulBooker.GET: Then it should return bookings filtered by firstname', () => {
-      cy.restfulGetBookingsByFilter({ firstname: testData.restfulBooking.firstname }).then((response) => {
+  context(`RestfullBooker__GET: When searching bookings by name by firstname/lastname`, () => {
+    it(`RestfullBooker__GET: Then it should return bookings filtered by firstname`, () => {
+      cy.restfullBooker__getAllBookingsByFilter__GET({ firstname: testData.restfulBooking.firstname }).then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an('array');
         expect(response.body.length).to.be.greaterThan(0);
       });
     });
-    it('RestfulBooker.GET: Then it should return bookings filtered by lastname', () => {
-      cy.restfulGetBookingsByFilter({ lastname: testData.restfulBooking.lastname }).then((response) => {
+    it(`RestfullBooker__GET: Then it should return bookings filtered by lastname`, () => {
+      cy.restfullBooker__getAllBookingsByFilter__GET({ lastname: testData.restfulBooking.lastname }).then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an('array');
         expect(response.body.length).to.be.greaterThan(0);
@@ -107,17 +162,17 @@ describe('RestfulBooker API: Given the Restful Booker API is available', { testI
     });
   });
 
-  context('RestfulBooker.GET: When searching bookings by dates', () => {
-    it.skip('RestfulBooker.GET: Then it should return bookings filtered by checkin', () => {
+  context(`RestfullBooker__GET:: When searching bookings by reservation dates(checkin/checkout)`, () => {
+    it.skip(`RestfullBooker__GET: Then it should return bookings filtered by checkin`, () => {
       //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/19
-      cy.restfulGetBookingsByFilter({ checkin: testData.restfulBooking.bookingdates.checkin }).then((response) => {
+      cy.restfullBooker__getAllBookingsByFilter__GET({ checkin: testData.restfulBooking.bookingdates.checkin }).then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an('array');
         expect(response.body.length).to.be.greaterThan(0);
       });
     });
-    it('RestfulBooker.GET: Then it should return bookings filtered by checkout', () => {
-      cy.restfulGetBookingsByFilter({ checkout: testData.restfulBooking.bookingdates.checkout }).then((response) => {
+    it(`RestfullBooker__GET: Then it should return bookings filtered by checkout`, () => {
+      cy.restfullBooker__getAllBookingsByFilter__GET({ checkout: testData.restfulBooking.bookingdates.checkout }).then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an('array');
         expect(response.body.length).to.be.greaterThan(0);
@@ -125,82 +180,95 @@ describe('RestfulBooker API: Given the Restful Booker API is available', { testI
     });
   });
 
-  context('RestfulBooker.PATCH: When updating booking data', () => {
+  context(`RestfullBooker__PATCH: When updating booking data`, () => {
     let patchBody;
-    let field;
+    let randomField;
     before(() => {
-      cy.getRandomBookingUpdateField().then(({ field, value }) => {
-        field = field.toLowerCase();
+      cy.restfullBooker__getRandomBookingUpdateField__GET().then(({ field, value }) => {
+        randomField = field;  
         patchBody = field === 'bookingdates' ? { bookingdates: value } : { [field]: value };
+        cy.log(`Updated random field: ${randomField}`);
       });
     });
-    it(`RestfulBooker.PATCH: Then it should update the random field '${field}' and return 200`, () => {
-      cy.restfulUpdateBooking(adminToken, bookingId, patchBody).then((response) => {
+    it(`RestfullBooker__PATCH: Then it should update the random field and return 200`, () => {
+      cy.restfullBooker__updateBooking__PATCH(adminToken, testData.bookingId, patchBody).then((response) => {
         expect(response.status).to.eq(200);
-        if (field === 'bookingdates') {
-          expect(response.body.bookingdates.checkin).to.eq(patchBody.value.checkin);
-          expect(response.body.bookingdates.checkout).to.eq(patchBody.value.checkout);
+        if (randomField === 'bookingdates') {
+          expect(response.body.bookingdates.checkin).to.eq(patchBody.bookingdates.checkin);
+          expect(response.body.bookingdates.checkout).to.eq(patchBody.bookingdates.checkout);
         } else {
-          expect(response.body[field]).to.eq(patchBody.value);
+          expect(response.body[randomField]).to.eq(patchBody[randomField]);
         }
       });
     });
   });
 
-  context.skip('RestfulBooker.PATCH.Negative: When updating with empty required fields', () => {
-    it.skip(`RestfulBooker.PATCH.Negative: Then it should fail with random empty mandatory`, () => {
-      //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/20
-      cy.getRandomMandatoryField().then(({ field, data }) => {
-        cy.restfulUpdateBooking(bookingId, data, { failOnStatusCode: false }).then((response) => {
+  context.skip(`RestfullBooker__PATCH: When updating with empty required fields`, () => {
+    //   TODO: https://github.com/TanyaKlybik/cypress-automation-practice/issues/20
+    let randomField;
+    before(() => {
+      cy.restfullBooker__getRandomMandatoryField__GET().then((field) => {
+        randomField = field;
+      });
+        cy.log(`Selected random mandatory field: ${randomField}`);
+      });
+    it.skip(`RestfullBooker__PATCH: Then it should fail with random empty mandatory`, () => {
+       cy.restfullBooker__prepareBookingWithEmptyField__GET(randomField).then((bookingData) => {
+        cy.restfullBooker__updateBooking__PATCH(adminToken, testData.bookingId, bookingData, { failOnStatusCode: false }).then((response) => {
           expect(response.status).to.eq(500);
-          cy.log(`Tried to update random empty mandatory field: ${field}`);
+          expect(response.body).to.eq(l10n.apiRestfulBooking.errors.internalServerError);
+          });
+        });
+     });
+   });
+
+  context.skip(`RestfullBooker__PATCH: When updating with check-in later than checkout`, () => {
+    it.skip(`RestfullBooker__PATCH: Then it should fail when checkin is later than checkout`, () => {
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInAfterCheckOut').then((bookingData) => {
+       cy.restfullBooker__updateBooking__PATCH(adminToken, testData.bookingId, bookingData, { failOnStatusCode: false }).then((response) => {
+        expect(response.status).to.eq(500);
+        expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
         });
       });
     });
   });
 
-  context.skip('RestfulBooker.PATCH.Negative: When updating with check-in later than checkout', () => {
-    it.skip('RestfulBooker.PATCH.Negative: Then it should not update when checkin is later than checkout', () => {
-      const patchBody = { bookingdates: { checkin: testData.restfulTestDates.futureCheckout, checkout: testData.restfulTestDates.futureCheckin } };
-      cy.restfulUpdateBooking(adminToken, bookingId, patchBody, { failOnStatusCode: false }).then((response) => {
-        expect(response.status).to.eq(500);
-        expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
+  context.skip(`RestfullBooker__PATCH: When updating with check-in in the past`, () => {
+    it.skip(`RestfullBooker__PATCH: Then it should fail when checkin is in the past`, () => {
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInInPast').then((bookingData) => {
+        cy.restfullBooker__updateBooking__PATCH(adminToken, testData.bookingId, bookingData, { failOnStatusCode: false }).then((response) => {
+          expect(response.status).to.eq(500);
+          expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinInPast);
+        });
+       });
+    });
+  });
+
+  context.skip(`RestfullBooker__PATCH: When updating with check-in equal to checkout`, () => {
+    it.skip(`RestfullBooker__PATCH: Then it should fail when checkin equals checkout`, () => {
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('checkInEqualToCheckOut').then((bookingData) => {
+        cy.restfullBooker__updateBooking__PATCH(adminToken, testData.bookingId, bookingData, { failOnStatusCode: false }).then((response) => {
+          expect(response.status).to.eq(500);
+          expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
+        });
       });
     });
   });
 
-  context.skip('RestfulBooker.PATCH.Negative: When updating with check-in in the past', () => {
-    it.skip('RestfulBooker.PATCH.Negative: Then it should not update when checkin is in the past', () => {
-      const patchBody = { bookingdates: { checkin: testData.restfulTestDates.pastCheckin } };
-      cy.restfulUpdateBooking(adminToken, bookingId, patchBody, { failOnStatusCode: false }).then((response) => {
-        expect(response.status).to.eq(500);
-        expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinInPast);
+  context.skip(`RestfullBooker__PATCH: When updating with invalid date format`, () => {
+    it.skip(`RestfullBooker__PATCH: Then it should fail when date format is invalid`, () => {
+      cy.restfullBooker__prepareBookingWithUpdatedItem__GET('invalidDateFormat').then((bookingData) => {
+        cy.restfullBooker__updateBooking__PATCH(adminToken, testData.bookingId, bookingData, { failOnStatusCode: false }).then((response) => {
+          expect(response.status).to.eq(500);
+          expect(response.body).to.eq(l10n.apiRestfulBooking.errors.invalidDateFormat);
+        });
       });
     });
   });
 
-  context.skip('RestfulBooker.PATCH.Negative: When updating with check-in equal to checkout', () => {
-    it.skip('RestfulBooker.PATCH.Negative: Then it should not update when checkin equals checkout', () => {
-      cy.restfulUpdateBooking(adminToken, bookingId, testData.updatedItems.checkInEqualToCheckout, { failOnStatusCode: false }).then((response) => {
-        expect(response.status).to.eq(500);
-        expect(response.body).to.eq(l10n.apiRestfulBooking.errors.checkinAfterCheckout);
-      });
-    });
-  });
-
-  context.skip('RestfulBooker.PATCH.Negative: When updating with invalid date format', () => {
-    it.skip('RestfulBooker.PATCH.Negative: Then it should not update when date format is invalid', () => {
-      const patchBody = { bookingdates: { checkin: RestfulTestDates.invalidFormat } };
-      cy.restfulUpdateBooking(adminToken, bookingId, patchBody, { failOnStatusCode: false }).then((response) => {
-        expect(response.status).to.eq(500);
-        expect(response.body).to.eq(l10n.apiRestfulBooking.errors.invalidDateFormat);
-      });
-    });
-  });
-
-  context('RestfulBooker.DELETE: When deleting a booking', () => {
-    it('RestfulBooker.DELETE: Then it should return 201', () => {
-      cy.restfulDeleteBooking(adminToken, bookingId).then((response) => {
+  context(`RestfullBooker__DELETE: When deleting the booking`, () => {
+    it(`RestfullBooker__DELETE: Then it should return 201`, () => {
+      cy.restfullBooker__deleteBooking__DELETE(adminToken, testData.bookingId).then((response) => {
         expect(response.status).to.eq(201);
       });
     });
