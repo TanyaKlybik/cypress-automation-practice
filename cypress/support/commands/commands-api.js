@@ -46,7 +46,6 @@ Cypress.Commands.add('restfullBooker__getAllBookingsById__GET', (bookingId) => {
   return cy.request({
     method: 'GET',
     url: urls.apiBookingById(bookingId),
-    failOnStatusCode: false,
   });
 });
 
@@ -55,7 +54,6 @@ Cypress.Commands.add('restfullBooker__getAllBookingsByFilter__GET', (filter) => 
     method: 'GET',
     url: urls.apiBooking,
     qs: filter,
-    failOnStatusCode: false,
   });
 });
 
@@ -76,7 +74,6 @@ Cypress.Commands.add('restfullBooker__deleteBooking__DELETE', (token, bookingId)
     headers: {
       Cookie: `token=${token}`,
     },
-    failOnStatusCode: false,
   });
 });
 
