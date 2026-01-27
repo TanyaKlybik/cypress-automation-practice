@@ -1,4 +1,6 @@
 const urls = {
+  // UI URLs
+  // ===========================
   // Internal pages — use relative paths
   baseUrl: 'https://www.saucedemo.com/',
   // cy.visit('/');
@@ -21,6 +23,18 @@ const urls = {
   linkedinPage: 'https://www.linkedin.com/company/sauce-labs/',
   termsOfService: '',
   privacyPolicy: '',
+
+  // ============================
+  // API URLs
+  // ============================
+  apiPing: 'https://restful-booker.herokuapp.com/ping',
+
+  // Booking
+  apiBooking: 'https://restful-booker.herokuapp.com/booking',
+  apiBookingById: (id) => `https://restful-booker.herokuapp.com/booking/${id}`,
+
+  // Auth
+  apiAuth: 'https://restful-booker.herokuapp.com/auth',
 };
 
 module.exports = urls;

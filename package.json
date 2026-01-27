@@ -1,7 +1,7 @@
 {
   "name": "cypress-automation-practice",
   "version": "1.0.0",
-  "description": "Test automation framework based on Cypress (saucedemo.com)",
+  "description": "Test automation framework based on Cypress (saucedemo.com and restful-booker.herokuapp.com)",
   "main": "index.js",
   "scripts": {
     "test": "npm run cy:run",
@@ -10,12 +10,7 @@
   "author": "Tatsiana Klybik",
   "license": "ISC",
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "cypress": "^14.2.1",
-    "eslint": "^9.39.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-cypress": "^5.2.0",
-    "eslint-plugin-mocha": "^11.2.0",
-    "prettier": "^3.6.2"
+    "cypress": "^15.8.2",
+    "prettier": "^3.7.4"
   }
 }

@@ -5,6 +5,7 @@ const userRoles = {
   ERROR: 'ErrorUser',
   VISUAL: 'VisualUser',
   PERFORMANCE_GLITCH: 'PerformanceGlitchUser',
+  API_ADMIN: 'ApiAdmin',
 };
 
 export default {

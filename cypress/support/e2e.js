@@ -3,7 +3,8 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands';
+import './commands/commands-ui';
+import './commands/commands-api';
 
 // Import necessary modules and resources
 import l10n from './l10n.json';
@@ -27,4 +28,4 @@ global.checkOutOverviewPage = selectors.checkOutOverviewPage;
 global.checkOutCompletePage = selectors.checkOutCompletePage;
 global.urls = urls;
 global.userRoles = userRoles.userRoles;
-global.colours = colours;
+global.colours = colours.colours;

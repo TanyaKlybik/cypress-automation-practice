@@ -28,3 +28,8 @@ Thumbs.db
 cypress/screenshots/
 cypress/videos/
 cypress/downloads/
+
+# Cypress outputs with sensitive data
+
+sensitive-data/**
+!sensitive-data/.gitkeep

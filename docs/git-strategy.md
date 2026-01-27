@@ -4,7 +4,6 @@
 
 1. **Main Branch**:
    - `main` is the stable branch, always containing the latest working version.
-   - All releases are made from `main`.
    - `main` is protected — **direct commits are not allowed**. All changes must go through a Pull Request (PR).
 
 2. **Feature Branches**:

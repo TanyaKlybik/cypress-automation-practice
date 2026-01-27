@@ -1,10 +1,14 @@
 import { cartPageTestData } from '../../test-data/cart-page.test-data';
 
-describe('CartPage: Given cart page is open ', { testIsolation: false }, () => {
+describe('CartPage: Given cart page is open', { testIsolation: false }, () => {
   let standardUser;
   before(() => {
-    cy.getUserDataByRole(userRoles.STANDARD).then((user) => {
-      standardUser = user;
+    cy.then(() => {
+      cy.getUserDataByRole(userRoles.STANDARD).then((user) => {
+        standardUser = user;
+      });
+    });
+    cy.then(() => {
       cy.visit('/');
       cy.loginPage_FillLoginForm(standardUser);
       cy.get(loginPage.loginButton).click();

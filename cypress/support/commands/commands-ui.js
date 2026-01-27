@@ -34,7 +34,7 @@ Cypress.Commands.add('getUserDataByRole', (role) => {
     return cy.wrap(user);
   }
 
-  return cy.fixture(`../sensitive-data/${Cypress.env('envName')}-users.json`).then((users) => {
+  return cy.fixture(`../../sensitive-data/${Cypress.env('envName')}-users.json`).then((users) => {
     const userData = users[role];
     if (!userData) {
       throw new Error(`User data not found for role: ${role}`);
@@ -94,9 +94,12 @@ Cypress.Commands.add('shouldBeSortedByPrice', { prevSubject: true }, (subject, o
 
 Cypress.Commands.add('checkoutInfo_FillFormAndContinue', (user) => {
   const { firstName, lastName, postalCode } = user;
-  cy.get(checkOutInfoPage.firstNameInput).clear().type(firstName);
-  cy.get(checkOutInfoPage.lastNameInput).clear().type(lastName);
-  cy.get(checkOutInfoPage.postalCodeInput).clear().type(postalCode);
+  cy.get(checkOutInfoPage.firstNameInput).clear();
+  cy.get(checkOutInfoPage.firstNameInput).type(firstName);
+  cy.get(checkOutInfoPage.lastNameInput).clear();
+  cy.get(checkOutInfoPage.lastNameInput).type(lastName);
+  cy.get(checkOutInfoPage.postalCodeInput).clear();
+  cy.get(checkOutInfoPage.postalCodeInput).type(postalCode);
   cy.get(checkOutInfoPage.continueButton).click();
   cy.url().should('eq', urls.checkoutOverviewPage);
 });

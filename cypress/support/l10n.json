@@ -54,5 +54,14 @@
     "completeHeader": "Thank you for your order!",
     "completeText": "Your order has been dispatched, and will arrive just as fast as the pony can get there!",
     "backHomeButton": "Back Home"
+  },
+  "apiRestfulBooking": {
+    "errors": {
+      "checkinAfterCheckout": "Check-in date cannot be later than check-out date",
+      "checkInEqualToCheckOut": "Check-in date cannot be equal check-out date",
+      "checkinInPast": "Check-in date cannot be in the past",
+      "invalidDateFormat": "Date format is invalid. Expected format: YYYY-MM-DD",
+      "internalServerError": "Internal Server Error"
+    }
   }
 }
