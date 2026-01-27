@@ -24,8 +24,7 @@
   describe('CartItem: When user adds an item to the cart', () => { ... });
 
   API
-  describe('Booking GET: Given user list exists', () => { ... });
-  describe('Booking POST: Given valid credentials', () => { ... });
+  describe('RestfulBooker.API: Given the Restful Booker API is available', () => { ... });
   ```
 
 - **`context` block**:
@@ -39,8 +38,8 @@
   context('CartItem: When user submits a form with invalid data', () => { ... });
 
   API
-  context('Booking POST: When sending valid request', () => { ... });
-  context('Booking POST: When token is missing', () => { ... });
+  context('RestfullBooker.CreateBooking.POST: When creating a new booking', () => { ... });
+  context('RestfullBooker.ReceiveListOfBookings.GET: When requesting all bookings', () => { ... });
   ```
 
 - **`it` block**:
@@ -54,8 +53,8 @@
   it('LoginPage: Then it should show an error message when the password is incorrect', () => { ... });
 
   API
-  it('Booking GET: Then it should return 200 and list of users', () => { ... });
-  it('Booking POST: Then it should return 401 for invalid token', () => { ... });
+  it('RestfullBooker.ReceiveListOfBookings.GET: Then it should return 200 and an array', () => { ... });
+  it('RestfullBooker.RemoveBooking.DELETE: Then it should return 201', () => { ... });
 
   ```
 
